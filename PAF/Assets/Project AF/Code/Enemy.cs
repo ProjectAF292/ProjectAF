@@ -44,6 +44,18 @@ public class Enemy : MonoBehaviour
         IsDead = false;
     }
 
+    //적이 물리적으로 공격을 받았는지 체크 및 데미지 부여
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!collision.CompareTag("Attack")) // 만약 적에게 충돌한게 어택이 아니라면
+            return; // 이 스크립트는 걍 꺼-져라
+        _currentHealth -= collision.GetComponent<Attack>().damage;
+               
+
+    }
+
+
+
     /// <summary>
     /// 적이 데미지를 받았을 때 호출되는 메서드
     /// </summary>
@@ -55,7 +67,7 @@ public class Enemy : MonoBehaviour
         
         _currentHealth -= damage;
         
-        // 체력이 0 이하가 되면 사망 처리
+                // 체력이 0 이하가 되면 사망 처리
         if (_currentHealth <= 0)
         {
             _currentHealth = 0;

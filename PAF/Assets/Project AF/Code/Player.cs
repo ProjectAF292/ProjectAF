@@ -10,10 +10,12 @@ public class Player : MonoBehaviour
 
     Rigidbody2D rigid;
     SpriteRenderer spriter;
+    Animator anim;
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
     }
 
         private void FixedUpdate()
@@ -24,6 +26,8 @@ public class Player : MonoBehaviour
 
     private void LateUpdate()
     {
+        anim.SetFloat("Speed", inputVec.magnitude);
+
         if (inputVec.x != 0) // 왼쪽으로 갈때 캐릭터 이미지 x 축으로 반전
         {
             spriter.flipX = inputVec.x < 0;   
