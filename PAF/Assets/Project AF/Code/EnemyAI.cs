@@ -1,38 +1,70 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 적의 AI 동작을 제어하는 클래스
+/// </summary>
 public class EnemyAI : MonoBehaviour
 {
-    public float detectionRange = 5f; // 탐지 범위
-    public float attackRange = 1f; // 공격 범위
-    public float moveSpeed = 2f; // 이동 속도
-    private Rigidbody2D rb;
-    private SpriteRenderer spriteRenderer;
-    private Vector2 lastDirection; // 이전 방향 저장
+    [Header("Detection Settings")]
+    [Tooltip("적이 플레이어를 감지할 수 있는 범위")]
+    public float detectionRange = 5f;
+    
+    [Tooltip("적이 플레이어를 공격할 수 있는 범위")]
+    public float attackRange = 1f;
+    
+    [Tooltip("적의 이동 속도")]
+    public float moveSpeed = 2f;
 
-    private Transform player;
+    // 컴포넌트 캐싱
+    private Rigidbody2D _rb;
+    private SpriteRenderer _spriteRenderer;
+    private Enemy _enemy;
+    private Transform _player;
 
-    void Start()
+    // 방향 관련
+    private Vector2 _lastDirection;
+    private readonly float _directionThreshold = 0.3f;
+
+    private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        
-        // Rigidbody2D 설정
-        rb.constraints = RigidbodyConstraints2D.FreezeRotation; // 회전 방지
-        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous; // 연속 충돌 감지
-        rb.interpolation = RigidbodyInterpolation2D.Interpolate; // 부드러운 움직임
-        
-        FindPlayer();
-        lastDirection = Vector2.right; // 초기 방향 설정
+        // 컴포넌트 캐싱
+        _rb = GetComponent<Rigidbody2D>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _enemy = GetComponent<Enemy>();
     }
 
-    void FindPlayer()
+    private void Start()
+    {
+        // 초기 설정
+        InitializeAI();
+    }
+
+    /// <summary>
+    /// AI 초기 설정
+    /// </summary>
+    private void InitializeAI()
+    {
+        // Rigidbody2D 설정
+        if (_rb != null)
+        {
+            _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            _rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+            _rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+        }
+        
+        _lastDirection = Vector2.right;
+        FindPlayer();
+    }
+
+    /// <summary>
+    /// 플레이어 찾기
+    /// </summary>
+    private void FindPlayer()
     {
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
         if (playerObject != null)
         {
-            player = playerObject.transform;
+            _player = playerObject.transform;
             Debug.Log("플레이어를 찾았습니다!");
         }
         else
@@ -41,108 +73,169 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    void UpdateDirection(Vector2 directionToPlayer)
+    /// <summary>
+    /// 적의 방향 업데이트
+    /// </summary>
+    private void UpdateDirection(Vector2 directionToPlayer)
     {
-        // 방향 전환 임계값 설정
-        float directionThreshold = 0.3f; // 임계값 증가
-        
-        // 현재 방향과 이전 방향의 차이가 임계값보다 작으면 방향 유지
-        if (Vector2.Distance(directionToPlayer, lastDirection) < directionThreshold)
+        // 방향 변화가 임계값보다 작으면 무시
+        if (Vector2.Distance(directionToPlayer, _lastDirection) < _directionThreshold)
         {
             return;
         }
 
-        // 좌우 방향이 더 큰 경우
+        // 좌우 이동이 더 큰 경우
         if (Mathf.Abs(directionToPlayer.x) > Mathf.Abs(directionToPlayer.y))
         {
-            if (directionToPlayer.x < 0)
-            {
-                spriteRenderer.flipX = true;
-            }
-            else
-            {
-                spriteRenderer.flipX = false;
-            }
-            transform.rotation = Quaternion.identity;
+            HandleHorizontalMovement(directionToPlayer.x);
         }
         else
         {
-            // 위아래 방향이 더 큰 경우
-            // 위로 갈 때는 90도, 아래로 갈 때는 -90도
-            float targetRotation = directionToPlayer.y > 0 ? 90f : -90f;
-            transform.rotation = Quaternion.Euler(0, 0, targetRotation);
-            spriteRenderer.flipX = false; // 위아래 방향일 때는 좌우 반전 없음
+            HandleVerticalMovement(directionToPlayer.y);
         }
         
-        lastDirection = directionToPlayer;
+        _lastDirection = directionToPlayer;
     }
 
-    void FixedUpdate()
+    /// <summary>
+    /// 좌우 이동 처리
+    /// </summary>
+    private void HandleHorizontalMovement(float xDirection)
     {
-        if (player == null)
+        _spriteRenderer.flipX = xDirection < 0;
+        transform.rotation = Quaternion.identity;
+    }
+
+    /// <summary>
+    /// 상하 이동 처리
+    /// </summary>
+    private void HandleVerticalMovement(float yDirection)
+    {
+        float targetRotation = yDirection > 0 ? 90f : -90f;
+        transform.rotation = Quaternion.Euler(0, 0, targetRotation);
+        _spriteRenderer.flipX = false;
+    }
+
+    private void FixedUpdate()
+    {
+        // 사망했거나 플레이어가 없으면 처리하지 않음
+        if (_enemy != null && _enemy.IsDead) return;
+        if (_player == null)
         {
             FindPlayer();
             return;
         }
 
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        Vector2 directionToPlayer = (player.position - transform.position).normalized;
+        HandleAIBehavior();
+    }
 
-        // 플레이어가 탐지 범위 내에 있는지 확인
+    /// <summary>
+    /// AI 행동 처리
+    /// </summary>
+    private void HandleAIBehavior()
+    {
+        Vector2 directionToPlayer = (_player.position - transform.position).normalized;
+        float distanceToPlayer = Vector2.Distance(transform.position, _player.position);
+
+        // 플레이어가 탐지 범위 내에 있는 경우
         if (distanceToPlayer <= detectionRange)
         {
-            // 공격 범위 안에 들어왔는지 확인
             if (distanceToPlayer <= attackRange)
             {
-                rb.velocity = Vector2.zero;
-                UpdateDirection(directionToPlayer);
-                AttackPlayer();
+                // 공격 범위 내에 있으면 공격
+                HandleAttack(directionToPlayer);
             }
             else
             {
                 // 공격 범위 밖에 있으면 추적
-                rb.velocity = directionToPlayer * moveSpeed;
-                UpdateDirection(directionToPlayer);
-                Debug.DrawLine(transform.position, player.position, Color.red);
+                HandleChase(directionToPlayer);
             }
         }
         else
         {
-            // 탐지 범위를 벗어나면 정지
-            rb.velocity = Vector2.zero;
-            transform.rotation = Quaternion.identity;
-            lastDirection = Vector2.right; // 초기 방향으로 리셋
+            // 탐지 범위를 벗어나면 대기
+            HandleIdle();
         }
     }
 
-    void AttackPlayer()
+    /// <summary>
+    /// 공격 처리
+    /// </summary>
+    private void HandleAttack(Vector2 directionToPlayer)
+    {
+        _rb.velocity = Vector2.zero;
+        UpdateDirection(directionToPlayer);
+        AttackPlayer();
+    }
+
+    /// <summary>
+    /// 추적 처리
+    /// </summary>
+    private void HandleChase(Vector2 directionToPlayer)
+    {
+        _rb.velocity = directionToPlayer * moveSpeed;
+        UpdateDirection(directionToPlayer);
+        Debug.DrawLine(transform.position, _player.position, Color.red);
+    }
+
+    /// <summary>
+    /// 대기 상태 처리
+    /// </summary>
+    private void HandleIdle()
+    {
+        _rb.velocity = Vector2.zero;
+        transform.rotation = Quaternion.identity;
+        _lastDirection = Vector2.right;
+    }
+
+    /// <summary>
+    /// 플레이어 공격
+    /// </summary>
+    private void AttackPlayer()
     {
         Debug.Log("플레이어 공격!");
-        // 플레이어 공격 로직 추가
+        // 여기에 실제 공격 로직을 구현하세요
     }
 
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
-        // 탐지 범위
+        DrawDetectionRange();
+        DrawAttackRange();
+        DrawPlayerDirection();
+    }
+
+    /// <summary>
+    /// 탐지 범위 시각화
+    /// </summary>
+    private void DrawDetectionRange()
+    {
         Gizmos.color = new Color(1f, 0f, 0f, 0.2f);
         Gizmos.DrawWireSphere(transform.position, detectionRange);
-        
-        // 공격 범위
+    }
+
+    /// <summary>
+    /// 공격 범위 시각화
+    /// </summary>
+    private void DrawAttackRange()
+    {
         Gizmos.color = new Color(1f, 1f, 0f, 0.2f);
         Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
 
-        // 플레이어가 있다면 플레이어 방향 표시
-        if (player != null)
-        {
-            Gizmos.color = Color.blue;
-            Gizmos.DrawLine(transform.position, player.position);
-            
-            // 공격 가능한 각도 범위 표시
-            Gizmos.color = new Color(0f, 1f, 0f, 0.2f);
-            Vector3 right = transform.right;
-            Vector3 left = -transform.right;
-            Gizmos.DrawLine(transform.position, transform.position + right * attackRange);
-            Gizmos.DrawLine(transform.position, transform.position + left * attackRange);
-        }
+    /// <summary>
+    /// 플레이어 방향 시각화
+    /// </summary>
+    private void DrawPlayerDirection()
+    {
+        if (_player == null) return;
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position, _player.position);
+        
+        Gizmos.color = new Color(0f, 1f, 0f, 0.2f);
+        Vector3 right = transform.right;
+        Vector3 left = -transform.right;
+        Gizmos.DrawLine(transform.position, transform.position + right * attackRange);
+        Gizmos.DrawLine(transform.position, transform.position + left * attackRange);
     }
 }
