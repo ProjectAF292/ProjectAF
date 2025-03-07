@@ -92,8 +92,8 @@ public class EnemyHealthBar : MonoBehaviour
     /// </summary>
     private void UpdateHealthBarFill()
     {
-        // 현재 체력 비율 계산
-        float healthPercent = enemy.CurrentHealth / enemy.maxHealth;
+        // 현재 체력 비율 계산 (0~1 사이의 값으로 제한)
+        float healthPercent = Mathf.Clamp01(enemy.CurrentHealth / enemy.maxHealth);
         
         // Fill 이미지의 크기 조절
         _fillRectTransform.localScale = new Vector3(healthPercent, 1, 1);

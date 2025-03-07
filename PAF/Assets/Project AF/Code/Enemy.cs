@@ -22,11 +22,13 @@ public class Enemy : MonoBehaviour
 
     // 캐싱
     private Rigidbody2D _rb;
+    private Animator _animator;
 
     private void Awake()
     {
         // 컴포넌트 캐싱
         _rb = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -49,12 +51,14 @@ public class Enemy : MonoBehaviour
     {
         if (!collision.CompareTag("Attack")) // 만약 적에게 충돌한게 어택이 아니라면
             return; // 이 스크립트는 걍 꺼-져라
-        _currentHealth -= collision.GetComponent<Attack>().damage;
-               
 
+        // Attack 컴포넌트에서 데미지를 가져와서 적용
+        Attack attack = collision.GetComponent<Attack>();
+        if (attack != null)
+        {
+            TakeDamage(attack.damage);
+        }
     }
-
-
 
     /// <summary>
     /// 적이 데미지를 받았을 때 호출되는 메서드
@@ -66,15 +70,14 @@ public class Enemy : MonoBehaviour
         if (IsDead) return;
         
         _currentHealth -= damage;
+        Debug.Log($"Enemy hit! Current Health: {_currentHealth}");
         
-                // 체력이 0 이하가 되면 사망 처리
+        // 체력이 0 이하가 되면 사망 처리
         if (_currentHealth <= 0)
         {
             _currentHealth = 0;
             Die();
         }
-
-        // 여기에 데미지를 받았을 때의 효과나 애니메이션을 추가할 수 있습니다.
     }
 
     /// <summary>
@@ -90,9 +93,20 @@ public class Enemy : MonoBehaviour
             _rb.velocity = Vector2.zero;
         }
 
-        // 여기에 사망 애니메이션이나 파티클 효과를 추가할 수 있습니다.
+        // 사망 애니메이션 재생
+        if (_animator != null)
+        {
+            _animator.SetTrigger("Die");
+        }
         
-        // 1초 후에 오브젝트 제거
+        // 콜라이더 비활성화 (이미 죽은 적은 충돌하지 않도록)
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null)
+        {
+            col.enabled = false;
+        }
+
+        // 1초 후에 오브젝트 제거 (애니메이션 재생 시간 고려)
         Destroy(gameObject, 1f);
     }
 } 

@@ -15,15 +15,28 @@ public class EnemyAI : MonoBehaviour
     [Tooltip("적의 이동 속도")]
     public float moveSpeed = 2f;
 
+    [Header("Attack Settings")]
+    [Tooltip("공격 쿨타임 (초)")]
+    public float attackCooldown = 2f;
+    
+    [Tooltip("공격 범위 안에서 플레이어가 움직여도 공격을 유지할 최소 거리")]
+    public float minAttackDistance = 0.8f;
+
     // 컴포넌트 캐싱
     private Rigidbody2D _rb;
     private SpriteRenderer _spriteRenderer;
     private Enemy _enemy;
     private Transform _player;
+    private Animator _animator;
 
     // 방향 관련
     private Vector2 _lastDirection;
-    private readonly float _directionThreshold = 0.3f;
+    private Vector2 _attackDirection;  // 공격 시작 시의 방향 저장
+
+    // 공격 관련
+    private float _lastAttackTime;
+    private bool _canAttack = true;
+    private bool _isAttacking = false;  // 공격 중인지 여부
 
     private void Awake()
     {
@@ -31,6 +44,7 @@ public class EnemyAI : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _enemy = GetComponent<Enemy>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -78,42 +92,85 @@ public class EnemyAI : MonoBehaviour
     /// </summary>
     private void UpdateDirection(Vector2 directionToPlayer)
     {
-        // 방향 변화가 임계값보다 작으면 무시
-        if (Vector2.Distance(directionToPlayer, _lastDirection) < _directionThreshold)
+        float angle = Vector2.SignedAngle(Vector2.up, directionToPlayer);
+        
+        // 각도를 0-360도 범위로 변환
+        if (angle < 0) angle += 360f;
+        
+        // 8방향 기준으로 방향 결정
+        if (angle >= 337.5f || angle < 22.5f) // 위
         {
-            return;
+            _animator.SetFloat("moveX", 0);
+            _animator.SetFloat("moveY", 1);
+            _spriteRenderer.flipX = false;
         }
-
-        // 좌우 이동이 더 큰 경우
-        if (Mathf.Abs(directionToPlayer.x) > Mathf.Abs(directionToPlayer.y))
+        else if (angle >= 22.5f && angle < 67.5f) // 오른쪽 위
         {
-            HandleHorizontalMovement(directionToPlayer.x);
+            _animator.SetFloat("moveX", 1);
+            _animator.SetFloat("moveY", 1);
+            _spriteRenderer.flipX = true;
+        }
+        else if (angle >= 67.5f && angle < 112.5f) // 오른쪽
+        {
+            _animator.SetFloat("moveX", 1);
+            _animator.SetFloat("moveY", 0);
+            _spriteRenderer.flipX = true;
+        }
+        else if (angle >= 112.5f && angle < 157.5f) // 오른쪽 아래
+        {
+            _animator.SetFloat("moveX", 1);
+            _animator.SetFloat("moveY", -1);
+            _spriteRenderer.flipX = true;
+        }
+        else if (angle >= 157.5f && angle < 202.5f) // 아래
+        {
+            _animator.SetFloat("moveX", 0);
+            _animator.SetFloat("moveY", -1);
+            _spriteRenderer.flipX = false;
+        }
+        else if (angle >= 202.5f && angle < 247.5f) // 왼쪽 아래
+        {
+            _animator.SetFloat("moveX", -1);
+            _animator.SetFloat("moveY", -1);
+            _spriteRenderer.flipX = false;
+        }
+        else if (angle >= 247.5f && angle < 292.5f) // 왼쪽
+        {
+            _animator.SetFloat("moveX", -1);
+            _animator.SetFloat("moveY", 0);
+            _spriteRenderer.flipX = false;
+        }
+        else // 왼쪽 위
+        {
+            _animator.SetFloat("moveX", -1);
+            _animator.SetFloat("moveY", 1);
+            _spriteRenderer.flipX = false;
+        }
+        
+        _lastDirection = new Vector2(_animator.GetFloat("moveX"), _animator.GetFloat("moveY"));
+        Debug.Log($"Direction Updated - Angle: {angle:F2}, Direction: {_lastDirection}");
+    }
+
+    /// <summary>
+    /// 애니메이션 업데이트
+    /// </summary>
+    private void UpdateAnimation(Vector2 directionToPlayer)
+    {
+        if (_enemy != null && _enemy.IsDead) return;
+        if (_isAttacking) return;
+
+        bool isMoving = _rb.velocity.magnitude > 0.01f || directionToPlayer.magnitude > 0.1f;
+        _animator.SetBool("isMoving", isMoving);
+
+        if (isMoving)
+        {
+            UpdateDirection(directionToPlayer);
         }
         else
         {
-            HandleVerticalMovement(directionToPlayer.y);
+            _animator.SetFloat("moveX", _lastDirection.x);
+            _animator.SetFloat("moveY", _lastDirection.y);
         }
-        
-        _lastDirection = directionToPlayer;
-    }
-
-    /// <summary>
-    /// 좌우 이동 처리
-    /// </summary>
-    private void HandleHorizontalMovement(float xDirection)
-    {
-        _spriteRenderer.flipX = xDirection < 0;
-        transform.rotation = Quaternion.identity;
-    }
-
-    /// <summary>
-    /// 상하 이동 처리
-    /// </summary>
-    private void HandleVerticalMovement(float yDirection)
-    {
-        float targetRotation = yDirection > 0 ? 90f : -90f;
-        transform.rotation = Quaternion.Euler(0, 0, targetRotation);
-        _spriteRenderer.flipX = false;
     }
 
     private void FixedUpdate()
@@ -142,8 +199,26 @@ public class EnemyAI : MonoBehaviour
         {
             if (distanceToPlayer <= attackRange)
             {
-                // 공격 범위 내에 있으면 공격
-                HandleAttack(directionToPlayer);
+                // 공격 범위 내에 있고 공격 가능한 상태일 때 즉시 공격
+                if (!_isAttacking && _canAttack && Time.time >= _lastAttackTime + attackCooldown)
+                {
+                    if (distanceToPlayer >= minAttackDistance)
+                    {
+                        _rb.velocity = Vector2.zero;
+                        HandleAttack(directionToPlayer);
+                    }
+                    else
+                    {
+                        // 너무 가까우면 약간 뒤로 이동
+                        Vector2 backwardDirection = -directionToPlayer;
+                        _rb.velocity = backwardDirection * (moveSpeed * 0.5f);
+                        UpdateAnimation(directionToPlayer);
+                    }
+                }
+                else if (_isAttacking)
+                {
+                    _rb.velocity = Vector2.zero;
+                }
             }
             else
             {
@@ -163,9 +238,33 @@ public class EnemyAI : MonoBehaviour
     /// </summary>
     private void HandleAttack(Vector2 directionToPlayer)
     {
-        _rb.velocity = Vector2.zero;
-        UpdateDirection(directionToPlayer);
-        AttackPlayer();
+        _isAttacking = true;
+        _canAttack = false;
+        _lastAttackTime = Time.time;
+
+        if (_animator != null)
+        {
+            _animator.SetBool("isMoving", false);
+            UpdateDirection(directionToPlayer);
+            _animator.SetTrigger("isAttacking");
+            Debug.Log($"Attack Direction: {_lastDirection}");
+        }
+    }
+
+    /// <summary>
+    /// 공격 가능 상태로 리셋 - 애니메이션 이벤트에서 호출
+    /// </summary>
+    private void ResetAttack()
+    {
+        _canAttack = true;
+        _isAttacking = false;
+        
+        if (_animator != null && _player != null)
+        {
+            Vector2 currentDirection = (_player.position - transform.position).normalized;
+            _animator.SetBool("isMoving", false);
+            UpdateDirection(currentDirection);
+        }
     }
 
     /// <summary>
@@ -175,6 +274,7 @@ public class EnemyAI : MonoBehaviour
     {
         _rb.velocity = directionToPlayer * moveSpeed;
         UpdateDirection(directionToPlayer);
+        UpdateAnimation(directionToPlayer);
         Debug.DrawLine(transform.position, _player.position, Color.red);
     }
 
@@ -184,17 +284,28 @@ public class EnemyAI : MonoBehaviour
     private void HandleIdle()
     {
         _rb.velocity = Vector2.zero;
-        transform.rotation = Quaternion.identity;
-        _lastDirection = Vector2.right;
+        
+        // 기본 방향을 아래쪽(Front)으로 설정
+        _lastDirection = Vector2.down;
+        
+        if (_animator != null)
+        {
+            _animator.SetBool("isMoving", false);
+            _animator.SetFloat("moveX", 0);
+            _animator.SetFloat("moveY", -1);  // Front를 위해 -1 설정
+            _spriteRenderer.flipX = false;
+        }
+        
+        UpdateAnimation(Vector2.zero);
     }
 
     /// <summary>
-    /// 플레이어 공격
+    /// 플레이어 공격 - 애니메이션 이벤트에서 호출
     /// </summary>
     private void AttackPlayer()
     {
+        // 실제 공격 로직
         Debug.Log("플레이어 공격!");
-        // 여기에 실제 공격 로직을 구현하세요
     }
 
     private void OnDrawGizmos()
