@@ -10,17 +10,23 @@ public class EnemyAI : MonoBehaviour
     public float detectionRange = 5f;
     
     [Tooltip("적이 플레이어를 공격할 수 있는 범위")]
-    public float attackRange = 1f;
+    public float attackRange = 4f;
     
     [Tooltip("적의 이동 속도")]
     public float moveSpeed = 2f;
-
-    [Header("Attack Settings")]
-    [Tooltip("공격 쿨타임 (초)")]
-    public float attackCooldown = 2f;
     
     [Tooltip("공격 범위 안에서 플레이어가 움직여도 공격을 유지할 최소 거리")]
-    public float minAttackDistance = 0.8f;
+    public float minAttackDistance = 2f;
+
+    [Header("Attack Settings")]
+    [Tooltip("화살 프리팹")]
+    public GameObject arrowPrefab;
+    
+    [Tooltip("화살 발사 위치")]
+    public Transform firePoint;
+    
+    [Tooltip("공격 쿨타임 (초)")]
+    public float attackCooldown = 2f;
 
     // 컴포넌트 캐싱
     private Rigidbody2D _rb;
@@ -31,12 +37,11 @@ public class EnemyAI : MonoBehaviour
 
     // 방향 관련
     private Vector2 _lastDirection;
-    private Vector2 _attackDirection;  // 공격 시작 시의 방향 저장
 
     // 공격 관련
     private float _lastAttackTime;
     private bool _canAttack = true;
-    private bool _isAttacking = false;  // 공격 중인지 여부
+    private bool _isAttacking = false;
 
     private void Awake()
     {
@@ -183,6 +188,17 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
+        // 플레이어가 사망했는지 확인
+        PlayerHealth playerHealth = _player.GetComponent<PlayerHealth>();
+        if (playerHealth != null && playerHealth.IsDead())
+        {
+            // 플레이어가 사망했으면 모든 행동 중지
+            _rb.velocity = Vector2.zero;
+            _isAttacking = false;
+            _animator.SetBool("isMoving", false);
+            return;
+        }
+
         HandleAIBehavior();
     }
 
@@ -238,23 +254,43 @@ public class EnemyAI : MonoBehaviour
     /// </summary>
     private void HandleAttack(Vector2 directionToPlayer)
     {
+        if (_player == null || arrowPrefab == null || firePoint == null) return;
+
         _isAttacking = true;
         _canAttack = false;
         _lastAttackTime = Time.time;
 
+        // 공격 애니메이션 재생
         if (_animator != null)
         {
             _animator.SetBool("isMoving", false);
             UpdateDirection(directionToPlayer);
             _animator.SetTrigger("isAttacking");
-            Debug.Log($"Attack Direction: {_lastDirection}");
+        }
+
+        // 화살 생성 및 발사
+        GameObject arrow = Instantiate(arrowPrefab, firePoint.position, Quaternion.identity);
+        Arrow arrowComponent = arrow.GetComponent<Arrow>();
+        
+        if (arrowComponent != null)
+        {
+            // 화살 방향 설정
+            float angle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
+            arrow.transform.rotation = Quaternion.Euler(0, 0, angle);
+            
+            // 화살에 속도 적용
+            Rigidbody2D arrowRb = arrow.GetComponent<Rigidbody2D>();
+            if (arrowRb != null)
+            {
+                arrowRb.velocity = directionToPlayer * arrowComponent.speed;
+            }
         }
     }
 
     /// <summary>
     /// 공격 가능 상태로 리셋 - 애니메이션 이벤트에서 호출
     /// </summary>
-    private void ResetAttack()
+    public void ResetAttack()
     {
         _canAttack = true;
         _isAttacking = false;
@@ -275,7 +311,7 @@ public class EnemyAI : MonoBehaviour
         _rb.velocity = directionToPlayer * moveSpeed;
         UpdateDirection(directionToPlayer);
         UpdateAnimation(directionToPlayer);
-        Debug.DrawLine(transform.position, _player.position, Color.red);
+        Debug.Log($"Chasing player - Direction: {directionToPlayer}");
     }
 
     /// <summary>
@@ -297,15 +333,6 @@ public class EnemyAI : MonoBehaviour
         }
         
         UpdateAnimation(Vector2.zero);
-    }
-
-    /// <summary>
-    /// 플레이어 공격 - 애니메이션 이벤트에서 호출
-    /// </summary>
-    private void AttackPlayer()
-    {
-        // 실제 공격 로직
-        Debug.Log("플레이어 공격!");
     }
 
     private void OnDrawGizmos()
