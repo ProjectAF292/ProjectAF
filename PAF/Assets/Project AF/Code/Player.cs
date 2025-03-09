@@ -5,17 +5,36 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+
+     
+
+    
     public Vector2 inputVec;
     public float speed;
+
+    [Header("ÌöåÌîº ÏÑ∏ÌåÖ")]
+    public float dashSpeed = 10f;
+    public float dashDuration = 0.2f;
+    public float invincibleTime = 0.3f;
+    private bool isDashing = false;
+    private bool isInvincible = false;
+
+    [Header("Í≥µÍ≤© Í¥ÄÎ†®")]
+    public Transform attackPoint;   // Í≥µÍ≤©ÏùÑ ÏÉùÏÑ±Ìï† ÏúÑÏπò
+    public SkillManager skillManager; // SkillManager Ï∞∏Ï°∞
+
 
     Rigidbody2D rigid;
     SpriteRenderer spriter;
     Animator anim;
+
+    WaitForFixedUpdate wait;
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+         wait = new WaitForFixedUpdate();
     }
 
         private void FixedUpdate()
@@ -24,11 +43,86 @@ public class Player : MonoBehaviour
         rigid.MovePosition(rigid.position + nextVec);
     }
 
+
+
+    void Update()
+    {
+        AimTowardsMouse();
+
+        if (Input.GetMouseButtonDown(0)) // Ï¢åÌÅ¥Î¶≠
+        {
+            Attack(KeyCode.Mouse0);
+        }
+        if (Input.GetMouseButtonDown(1)) // Ïö∞ÌÅ¥Î¶≠
+        {
+            Attack(KeyCode.Mouse1);
+        }
+        if (Input.GetKeyDown(KeyCode.Q)) // Q
+        {
+            Attack(KeyCode.Q);
+        }
+        if (Input.GetKeyDown(KeyCode.E)) // E
+        {
+            Attack(KeyCode.E);
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing)
+        {
+            StartCoroutine(Dash());
+        }
+    }
+    IEnumerator Dash()
+    {
+        isDashing = true;
+        isInvincible = true;
+
+        float originalSpeed = speed;
+        speed = dashSpeed;
+
+        anim.SetTrigger("Dash");
+
+        yield return new WaitForSeconds(dashDuration);
+
+        speed = originalSpeed;
+        isDashing = false;
+
+        yield return new WaitForSeconds(invincibleTime - dashDuration);
+        isInvincible = false;
+    }
+
+    void AimTowardsMouse()
+    {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 direction = (mousePos - transform.position).normalized;
+
+        if (direction.x != 0)
+        {
+            spriter.flipX = direction.x < 0;
+        }
+    }
+
+    void Attack(KeyCode key)
+    {
+        anim.SetTrigger("Attack");
+
+        if (skillManager != null)
+        {
+            skillManager.UseSkillByKey(key);
+        }
+    }
+
+
+    // Î¨¥Ï†Å ÏÉÅÌÉú ÌôïÏù∏ Ìï®Ïàò Ï∂îÍ∞Ä
+    public bool IsInvincible()
+    {
+        return isInvincible;
+    }
+
     private void LateUpdate()
     {
         anim.SetFloat("Speed", inputVec.magnitude);
 
-        if (inputVec.x != 0) // øﬁ¬ ¿∏∑Œ ∞•∂ß ƒ≥∏Ø≈Õ ¿ÃπÃ¡ˆ x √‡¿∏∑Œ π›¿¸
+        if (inputVec.x != 0) // ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩ ƒ≥ÔøΩÔøΩÔøΩÔøΩ ÔøΩÃπÔøΩÔøΩÔøΩ x ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩ
         {
             spriter.flipX = inputVec.x < 0;   
         }
@@ -37,4 +131,7 @@ public class Player : MonoBehaviour
     {
         inputVec = value.Get<Vector2>();
     }
+       
+             
+         
 }

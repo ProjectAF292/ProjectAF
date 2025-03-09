@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -19,12 +20,14 @@ public class PlayerHealth : MonoBehaviour
     // 컴포넌트 캐싱
     private Animator animator;
     private Rigidbody2D rb;
+    WaitForFixedUpdate wait;
 
     private void Awake()
     {
         // 컴포넌트 캐싱
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        wait = new WaitForFixedUpdate();
     }
 
     private void Start()
@@ -39,6 +42,8 @@ public class PlayerHealth : MonoBehaviour
     /// <param name="damage">받은 데미지</param>
     public void TakeDamage(float damage)
     {
+        StartCoroutine(KnockBack());
+
         if (isDead) return;
 
         currentHealth -= damage;
@@ -47,23 +52,32 @@ public class PlayerHealth : MonoBehaviour
         // 체력이 0 이하가 되면 사망
         if (currentHealth <= 0)
         {
-            Die();
+            Dead();
         }
         else
         {
             // 피격 애니메이션 재생 (있다면)
-            if (animator != null)
+            if (currentHealth > 0)
             {
                 // TODO: Hit 애니메이션 파라미터 추가 후 주석 해제
                 //animator.SetTrigger("Hit");
+                animator.SetTrigger("Hit");
             }
+        }
+
+        IEnumerator KnockBack()
+        {
+            yield return wait;
+            Vector3 enemyPos = GameManager.instance.transform.position;
+            Vector3 dirVec = transform.position - enemyPos;
+            rb.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
         }
     }
 
     /// <summary>
     /// 플레이어 사망 처리
     /// </summary>
-    private void Die()
+    private void Dead()
     {
         if (isDead) return;
 
@@ -73,10 +87,11 @@ public class PlayerHealth : MonoBehaviour
         Debug.Log("플레이어가 사망했습니다!");
 
         // 사망 애니메이션 재생
-        if (animator != null)
+        if (currentHealth <= 0)
         {
             // TODO: Die 애니메이션 파라미터 추가 후 주석 해제
             //animator.SetTrigger("Die");
+            animator.SetTrigger("Dead");
         }
 
         // Rigidbody 비활성화
