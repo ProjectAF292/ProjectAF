@@ -103,7 +103,7 @@ public class Player : MonoBehaviour
 
     void Attack(KeyCode key)
     {
-        anim.SetTrigger("Attack");
+        //anim.SetTrigger("Attack");
 
         if (skillManager != null)
         {

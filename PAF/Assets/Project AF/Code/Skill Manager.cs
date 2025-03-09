@@ -5,11 +5,11 @@ using UnityEngine;
 public class SkillManager : MonoBehaviour
 {
     [Header("Skill Settings")]
-    public GameObject[] availableSkills; // »ç¿ë °¡´ÉÇÑ ½ºÅ³ ÇÁ¸®ÆÕµé (ÀÓÀÇ·Î 10°³ µî·Ï °¡´É)
+    public GameObject[] availableSkills; // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½ (ï¿½ï¿½ï¿½Ç·ï¿½ 10ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
     private Dictionary<KeyCode, GameObject> assignedSkills = new Dictionary<KeyCode, GameObject>();
 
-    public Transform attackPoint;   // °ø°Ý È÷Æ®¹Ú½º »ý¼º À§Ä¡
-    public float attackDuration = 0.2f; // È÷Æ®¹Ú½º À¯Áö ½Ã°£
+    public Transform attackPoint;   // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½Ú½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+    public float attackDuration = 0.2f; // ï¿½ï¿½Æ®ï¿½Ú½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
 
     private Animator anim;
     private SpriteRenderer spriteRenderer;
@@ -28,9 +28,9 @@ public class SkillManager : MonoBehaviour
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        // ÃÊ±â Å° ¼³Á¤ (°ÔÀÓ ½ÃÀÛ ½Ã ±âº» ½ºÅ³ ¼³Á¤)
-        AssignSkill(KeyCode.Mouse0, availableSkills[0]); // ÁÂÅ¬¸¯
-        AssignSkill(KeyCode.Mouse1, availableSkills[1]); // ¿ìÅ¬¸¯
+        // ï¿½Ê±ï¿½ Å° ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½âº» ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½)
+        AssignSkill(KeyCode.Mouse0, availableSkills[0]); // ï¿½ï¿½Å¬ï¿½ï¿½
+        AssignSkill(KeyCode.Mouse1, availableSkills[1]); // ï¿½ï¿½Å¬ï¿½ï¿½
         AssignSkill(KeyCode.Q, availableSkills[2]);      // Q
         AssignSkill(KeyCode.E, availableSkills[3]);      // E
     }
@@ -39,7 +39,7 @@ public class SkillManager : MonoBehaviour
     {
         AimTowardsMouse();
 
-        // Å° ÀÔ·ÂÀ» °¨ÁöÇÏ¿© ÇØ´ç Å°¿¡ ÇÒ´çµÈ ½ºÅ³ ½ÇÇà
+        // Å° ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Ø´ï¿½ Å°ï¿½ï¿½ ï¿½Ò´ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½
         foreach (var key in assignedSkills.Keys)
         {
             if (Input.GetKeyDown(key))
@@ -65,31 +65,31 @@ public class SkillManager : MonoBehaviour
     {
         if (skillPrefab == null) return;
 
-        anim.SetTrigger("Attack");
+        //anim.SetTrigger("Attack");
 
-        // ¸¶¿ì½º À§Ä¡ °¡Á®¿À±â
+        // ï¿½ï¿½ï¿½ì½º ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0f; // 2D È¯°æÀÌ¹Ç·Î Z°ª 0À¸·Î ¼³Á¤
+        mousePos.z = 0f; // 2D È¯ï¿½ï¿½ï¿½Ì¹Ç·ï¿½ Zï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-        // °ø°Ý ¹æÇâ °è»ê
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         Vector2 attackDirection = (mousePos - transform.position).normalized;
 
-        // ?? °ø°Ý »ý¼º °Å¸® ¼³Á¤
-        float spawnDistance = 1.5f; // ¿øÇÏ´Â °Å¸® °ª ¼³Á¤
+        // ?? ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+        float spawnDistance = 1.5f; // ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Å¸ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         Vector3 spawnPosition = transform.position + (Vector3)(attackDirection * spawnDistance);
 
-        // °ø°Ý ÇÁ¸®ÆÕ »ý¼º
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         GameObject skill = Instantiate(skillPrefab, spawnPosition, Quaternion.identity);
 
-        // °ø°Ý ¹æÇâÀ¸·Î È¸Àü Àû¿ë
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         float angle = Mathf.Atan2(attackDirection.y, attackDirection.x) * Mathf.Rad2Deg;
         skill.transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        // °ø°Ý ÀÌµ¿ Ã³¸® (¼Óµµ Àü´Þ)
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ Ã³ï¿½ï¿½ (ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½)
         Attack attackComponent = skill.GetComponent<Attack>();
         if (attackComponent != null)
         {
-            attackComponent.Init(20f, attackDirection, 10f, attackDuration); // ? spawnDistance Á¦°Å
+            attackComponent.Init(20f, attackDirection, 10f, attackDuration); // ? spawnDistance ï¿½ï¿½ï¿½ï¿½
         }
     }
     public void AssignSkill(KeyCode key, GameObject skillPrefab)
