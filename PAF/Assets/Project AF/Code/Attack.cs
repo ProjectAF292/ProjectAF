@@ -25,14 +25,12 @@ public class Attack : MonoBehaviour
         
         rb = GetComponent<Rigidbody2D>(); // Rigidbody2D 가져오기
 
-
-        gameObject.SetActive(true); // 일정 시간 후 자동 삭제
-
         if (rb != null)
         {
             rb.velocity = moveDirection * speed; // 지정된 방향으로 이동
         }
 
+        Destroy(gameObject, lifetime);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -48,5 +46,4 @@ public class Attack : MonoBehaviour
             gameObject.SetActive(false); // 충돌 후 삭제 (필요시 삭제 X)
         }
     }
-
 }
