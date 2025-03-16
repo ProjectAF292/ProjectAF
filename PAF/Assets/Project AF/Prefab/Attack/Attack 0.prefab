@@ -174,4 +174,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   speed: 5
-  spawnDistance: 5
+  lifetime: 0.2

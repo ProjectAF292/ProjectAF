@@ -36,14 +36,10 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    /// <summary>
-    /// 데미지를 받았을 때 호출되는 메서드
-    /// </summary>
-    /// <param name="damage">받은 데미지</param>
+   
     public void TakeDamage(float damage)
     {
-        StartCoroutine(KnockBack());
-
+       
         if (isDead) return;
 
         currentHealth -= damage;
@@ -65,13 +61,7 @@ public class PlayerHealth : MonoBehaviour
             }
         }
 
-        IEnumerator KnockBack()
-        {
-            yield return wait;
-            Vector3 enemyPos = GameManager.instance.transform.position;
-            Vector3 dirVec = transform.position - enemyPos;
-            rb.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
-        }
+        
     }
 
     /// <summary>
@@ -89,8 +79,7 @@ public class PlayerHealth : MonoBehaviour
         // 사망 애니메이션 재생
         if (currentHealth <= 0)
         {
-            // TODO: Die 애니메이션 파라미터 추가 후 주석 해제
-            //animator.SetTrigger("Die");
+           
             animator.SetTrigger("Dead");
         }
 

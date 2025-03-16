@@ -1,136 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+
 
 public class Player : MonoBehaviour
 {
-
-     
-
-    
+        
     public Vector2 inputVec;
     public float speed;
-
-    [Header("회피 세팅")]
-    public float dashSpeed = 10f;
-    public float dashDuration = 0.2f;
-    public float invincibleTime = 0.3f;
-    private bool isDashing = false;
-    private bool isInvincible = false;
-
-    [Header("공격 관련")]
-    public Transform attackPoint;   // 공격을 생성할 위치
-    public SkillManager skillManager; // SkillManager 참조
-
-
+        
     Rigidbody2D rigid;
     SpriteRenderer spriter;
     Animator anim;
 
-    WaitForFixedUpdate wait;
-    void Awake()
+        void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
-         wait = new WaitForFixedUpdate();
+       
     }
 
-        private void FixedUpdate()
+    private void Update()
     {
-        Vector2 nextVec = inputVec * speed * Time.fixedDeltaTime;
-        rigid.MovePosition(rigid.position + nextVec);
+        inputVec.x = Input.GetAxis("Horizontal");
+        inputVec.y = Input.GetAxis("Vertical");
     }
 
-
-
-    void Update()
+    private void FixedUpdate()
     {
-        AimTowardsMouse();
-
-        if (Input.GetMouseButtonDown(0)) // 좌클릭
-        {
-            Attack(KeyCode.Mouse0);
-        }
-        if (Input.GetMouseButtonDown(1)) // 우클릭
-        {
-            Attack(KeyCode.Mouse1);
-        }
-        if (Input.GetKeyDown(KeyCode.Q)) // Q
-        {
-            Attack(KeyCode.Q);
-        }
-        if (Input.GetKeyDown(KeyCode.E)) // E
-        {
-            Attack(KeyCode.E);
-        }
-
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing)
-        {
-            StartCoroutine(Dash());
-        }
-    }
-    IEnumerator Dash()
-    {
-        isDashing = true;
-        isInvincible = true;
-
-        float originalSpeed = speed;
-        speed = dashSpeed;
-
-        anim.SetTrigger("Dash");
-
-        yield return new WaitForSeconds(dashDuration);
-
-        speed = originalSpeed;
-        isDashing = false;
-
-        yield return new WaitForSeconds(invincibleTime - dashDuration);
-        isInvincible = false;
+        Vector2 nextVec = inputVec.normalized * speed * Time.fixedDeltaTime; // 플레이어 이동 입렵값을 일정하게 유지
+        rigid.MovePosition(rigid.position + nextVec); //리지드 위치에 내가 입력한 좌표값 더한곳으로 이동
     }
 
-    void AimTowardsMouse()
-    {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 direction = (mousePos - transform.position).normalized;
-
-        if (direction.x != 0)
-        {
-            spriter.flipX = direction.x < 0;
-        }
-    }
-
-    void Attack(KeyCode key)
-    {
-        //anim.SetTrigger("Attack");
-
-        if (skillManager != null)
-        {
-            skillManager.UseSkillByKey(key);
-        }
-    }
-
-
-    // 무적 상태 확인 함수 추가
-    public bool IsInvincible()
-    {
-        return isInvincible;
-    }
-
+                  
     private void LateUpdate()
     {
-        anim.SetFloat("Speed", inputVec.magnitude);
+        anim.SetFloat("Speed", inputVec.magnitude); // 이동에 따라서 캐릭터가 바라보고 있는 방향 지정
 
-        if (inputVec.x != 0) // �������� ���� ĳ���� �̹��� x ������ ����
+        if (inputVec.x != 0) 
         {
-            spriter.flipX = inputVec.x < 0;   
+            spriter.flipX = inputVec.x < 0; // 지금 백터x의 값이 0보다 작으면 스프라이트를 x 값으로 플립 해라
         }
     }
-    void OnMove(InputValue value)
-    {
-        inputVec = value.Get<Vector2>();
-    }
+   
+
+   
        
              
          
