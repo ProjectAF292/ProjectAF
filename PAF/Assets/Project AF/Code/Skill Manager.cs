@@ -5,9 +5,9 @@ using UnityEngine;
 public class SkillManager : MonoBehaviour
 {
     public GameObject[] prefabs;
-    [SerializeField]
     public List<GameObject>[] skills;
 
+    public GameObject skillPools;
     public Transform attackPos;
 
     private void Awake()
@@ -38,7 +38,7 @@ public class SkillManager : MonoBehaviour
 
         if (select == null)
         {
-            select = Instantiate(prefabs[index], attackPos.transform);
+            select = Instantiate(prefabs[index], attackPos.transform.position, Quaternion.identity, skillPools.gameObject.transform);
             skills[index].Add(select);
         }
 

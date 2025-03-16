@@ -445,6 +445,37 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &573707357
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 573707358}
+  m_Layer: 0
+  m_Name: SkillPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &573707358
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 573707357}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.87169826, y: -0.30553862, z: -0.99163735}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &598587272
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -759,6 +790,11 @@ PrefabInstance:
       objectReference: {fileID: 1743200257}
     - target: {fileID: 5101828342343851708, guid: 26185e6ec4773194da20fa8eb33f0520,
         type: 3}
+      propertyPath: skillPools
+      value: 
+      objectReference: {fileID: 573707357}
+    - target: {fileID: 5101828342343851708, guid: 26185e6ec4773194da20fa8eb33f0520,
+        type: 3}
       propertyPath: prefabs.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -1048,3 +1084,4 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 1113535196}
   - {fileID: 598587272}
+  - {fileID: 573707358}
