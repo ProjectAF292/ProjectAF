@@ -23,8 +23,8 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        inputVec.x = Input.GetAxisRaw("Horizontal");
-        inputVec.y = Input.GetAxisRaw("Vertical");
+        inputVec.x = Input.GetAxis("Horizontal");
+        inputVec.y = Input.GetAxis("Vertical");
     }
 
     private void FixedUpdate()
