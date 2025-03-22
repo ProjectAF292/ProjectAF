@@ -43,7 +43,7 @@ public class PlayerHealth : MonoBehaviour
         if (isDead) return;
 
         currentHealth -= damage;
-        Debug.Log($"플레이어가 {damage} 데미지를 받았습니다. 현재 체력: {currentHealth}");
+        //Debug.Log($"플레이어가 {damage} 데미지를 받았습니다. 현재 체력: {currentHealth}");
 
         // 체력이 0 이하가 되면 사망
         if (currentHealth <= 0)

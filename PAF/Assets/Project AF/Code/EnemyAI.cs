@@ -84,11 +84,11 @@ public class EnemyAI : MonoBehaviour
         if (playerObject != null)
         {
             _player = playerObject.transform;
-            Debug.Log("플레이어를 찾았습니다!");
+            //Debug.Log("플레이어를 찾았습니다!");
         }
         else
         {
-            Debug.LogWarning("플레이어를 찾을 수 없습니다!");
+            //Debug.LogWarning("플레이어를 찾을 수 없습니다!");
         }
     }
 
@@ -153,7 +153,7 @@ public class EnemyAI : MonoBehaviour
         }
         
         _lastDirection = new Vector2(_animator.GetFloat("moveX"), _animator.GetFloat("moveY"));
-        Debug.Log($"Direction Updated - Angle: {angle:F2}, Direction: {_lastDirection}");
+        //Debug.Log($"Direction Updated - Angle: {angle:F2}, Direction: {_lastDirection}");
     }
 
     /// <summary>

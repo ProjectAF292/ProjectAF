@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 
 public class SkillController : MonoBehaviour
@@ -10,9 +11,15 @@ public class SkillController : MonoBehaviour
     public Transform player;
     public float radius = 2f;
 
+    DataManager dataManager;
+
+    UserData userData;
+
     private void Start()
     {
         _camera = Camera.main;
+        dataManager = DataManager.Instance;
+        userData = dataManager.userData;
     }
 
 
@@ -32,9 +39,9 @@ public class SkillController : MonoBehaviour
         transform.up = dirVec;
 
         if (Input.GetMouseButtonDown(0)) ski.Get(0);
-        if (Input.GetMouseButtonDown(1)) ski.Get(1);
-        if (Input.GetKeyDown(KeyCode.Q)) ski.Get(2);
-        if (Input.GetKeyDown(KeyCode.E)) ski.Get(3);
+        if (Input.GetMouseButtonDown(1)) ski.Get(userData.skillSlot[0]);
+        if (Input.GetKeyDown(KeyCode.Q)) ski.Get(userData.skillSlot[1]);
+        if (Input.GetKeyDown(KeyCode.E)) ski.Get(userData.skillSlot[2]);
 
     }
 

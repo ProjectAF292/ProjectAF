@@ -6,53 +6,29 @@ public class SkillManager : MonoBehaviour
 {
     public GameObject[] prefabs;
 
-    //public List<GameObject>[] skills;
     public List<GameObject> skills = new List<GameObject>();
 
     public Transform attackPos;
 
     public GameObject skillPool;
+    
+    DataManager dataManager;
+    UserData userData;
 
-    int skillCount;
-
-    private void Awake()
+    private void Start()
     {
-        //skills = new List<GameObject>[prefabs.Length];
-        skillCount = 0;
-
-        //for (int index = 0; index < skills.Length; index++)
-        //{
-        //    skills[index] = new List<GameObject> ();
-        //}
-
-        //Debug.Log(skills.Length);
+        dataManager = DataManager.Instance;
+        userData = dataManager.userData;
     }
 
     public GameObject Get(int index)
     {
         GameObject select = null;
 
-        //foreach (GameObject item in skills[skillCount])
-        //{
-        //    if (!item.activeSelf)
-        //    {
-        //        select = item;
-        //        select.SetActive(true);
-        //        break;
-        //    }
-        //}
-
         if (select == null)
         {
-            select = Instantiate(prefabs[index], attackPos.transform.position, Quaternion.identity, skillPool.gameObject.transform);
-            //skills[index].Add(select);
-            skills.Add(select);
-            skillCount++;
-
+            select = Instantiate(Resources.Load<GameObject>(dataManager.skillTbl[index]["Prefab"].ToString()), attackPos.transform.position, Quaternion.identity, skillPool.gameObject.transform);
         }
-        Debug.Log(index);
-
         return select;
     }
-
 }

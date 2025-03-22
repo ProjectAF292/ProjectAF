@@ -1,28 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class UserData
+{
+    public int[] skillSlot = new int[3]; //SkillManager에 써있듯이 나중에 슬롯 수 바꿀 때 같이 바꿔줘야 함
+}
+
 public class DataManager : Singleton<DataManager>
 {
+    public UserData userData = new UserData();
 
-    public int testInt = 1;
+    public List<Dictionary<string , object>> skillTbl;
 
-    public List<Dictionary<string, object>> testTbl;
-
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        testTbl = CSVReader.Read("TestTable");
+        skillTbl = CSVReader.Read("DT_Skill");
 
-        for (int i = 0; i < testTbl.Count; i++)
+        for (int i = 0; i < userData.skillSlot.Length; i++)
         {
-            Debug.Log(testTbl[i]["Id"].ToString() + ", " + testTbl[i]["Name"].ToString() + ", " + testTbl[i]["Desc"].ToString() + testTbl[i]["Introduce"].ToString());
+            userData.skillSlot[i] = i + 1;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
