@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class SkillManager : MonoBehaviour
 {
-    public GameObject[] prefabs;
-
-    public List<GameObject> skills = new List<GameObject>();
-
     public Transform attackPos;
 
     public GameObject skillPool;
@@ -21,14 +17,25 @@ public class SkillManager : MonoBehaviour
         userData = dataManager.userData;
     }
 
-    public GameObject Get(int index)
+    public void UseSkill(int index)
+    {
+        GameObject select = null;
+
+        var skillSlot = dataManager.isSlotASelected ? userData.skillSlotA : userData.skillSlotB;
+
+        if (select == null)
+        {
+            select = Instantiate(Resources.Load<GameObject>(dataManager.skillTbl[skillSlot[index]]["Prefab"].ToString()), attackPos.transform.position, Quaternion.identity, skillPool.gameObject.transform);
+        }
+    }
+
+    public void NormalAttack()
     {
         GameObject select = null;
 
         if (select == null)
         {
-            select = Instantiate(Resources.Load<GameObject>(dataManager.skillTbl[index]["Prefab"].ToString()), attackPos.transform.position, Quaternion.identity, skillPool.gameObject.transform);
+            select = Instantiate(Resources.Load<GameObject>(dataManager.skillTbl[0]["Prefab"].ToString()), attackPos.transform.position, Quaternion.identity, skillPool.gameObject.transform);
         }
-        return select;
     }
 }

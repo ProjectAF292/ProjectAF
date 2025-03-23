@@ -6,13 +6,13 @@ using UnityEngine;
 public class SkillController : MonoBehaviour
 {
     public SkillManager ski;
+    public UIManager uiManager;
     private Camera _camera;
 
     public Transform player;
     public float radius = 2f;
 
     DataManager dataManager;
-
     UserData userData;
 
     private void Start()
@@ -38,12 +38,10 @@ public class SkillController : MonoBehaviour
         Vector2 dirVec = (mousePos - (Vector2)transform.position).normalized;
         transform.up = dirVec;
 
-        if (Input.GetMouseButtonDown(0)) ski.Get(0);
-        if (Input.GetMouseButtonDown(1)) ski.Get(userData.skillSlot[0]);
-        if (Input.GetKeyDown(KeyCode.Q)) ski.Get(userData.skillSlot[1]);
-        if (Input.GetKeyDown(KeyCode.E)) ski.Get(userData.skillSlot[2]);
-
+        if (Input.GetMouseButtonDown(0)) ski.NormalAttack();
+        if (Input.GetMouseButtonDown(1)) ski.UseSkill(0);
+        if (Input.GetKeyDown(KeyCode.Q)) ski.UseSkill(1);
+        if (Input.GetKeyDown(KeyCode.E)) ski.UseSkill(2);
+        if (Input.GetKeyDown(KeyCode.Tab)) uiManager.ChangeSlot();
     }
-
-    
 }
