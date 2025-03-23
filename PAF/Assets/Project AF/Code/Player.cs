@@ -46,7 +46,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float Speed = isDashing ? dashSpeed : speed;
+        float currentSpee = isDashing ? dashSpeed : speed;
         Vector2 nextVec = inputVec.normalized * speed * Time.fixedDeltaTime; // 플레이어 이동 입렵값을 일정하게 유지
         rigid.MovePosition(rigid.position + nextVec); //리지드 위치에 내가 입력한 좌표값 더한곳으로 이동
 
@@ -67,7 +67,7 @@ public class Player : MonoBehaviour
     IEnumerator Dodge()
     {
         isDashing = true;
-        dashDirection = inputVec;
+        dashDirection = inputVec.normalized;
         yield return new WaitForSeconds(dashTime);
         isDashing = false; 
     }

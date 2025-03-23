@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5639456652087404286}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 4899221436362862731}
   - component: {fileID: 1738177416683874587}
   - component: {fileID: 1828947627986728674}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,7 +116,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1108693239044445445}
   - component: {fileID: 4812195382693093009}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MonsterType
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 3732888406508307822}
   - component: {fileID: 6642365182634032539}
   - component: {fileID: 527493974979726344}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -282,7 +282,7 @@ GameObject:
   - component: {fileID: 5643070059273505943}
   - component: {fileID: 186921503123831474}
   - component: {fileID: 3296250184709837888}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy_Elite
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -500,7 +500,7 @@ GameObject:
   - component: {fileID: 4091729719836014260}
   - component: {fileID: 5936380893683376300}
   - component: {fileID: 1020185160264070616}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}

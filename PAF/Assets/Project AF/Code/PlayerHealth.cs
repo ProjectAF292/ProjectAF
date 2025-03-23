@@ -50,15 +50,10 @@ public class PlayerHealth : MonoBehaviour
         {
             Dead();
         }
+
         else
         {
-            // 피격 애니메이션 재생 (있다면)
-            if (currentHealth > 0)
-            {
-                // TODO: Hit 애니메이션 파라미터 추가 후 주석 해제
-                //animator.SetTrigger("Hit");
-                animator.SetTrigger("Hit");
-            }
+            animator.SetTrigger("Hit");
         }
 
         
@@ -76,21 +71,11 @@ public class PlayerHealth : MonoBehaviour
 
         Debug.Log("플레이어가 사망했습니다!");
 
-        // 사망 애니메이션 재생
-        if (currentHealth <= 0)
-        {
-           
-            animator.SetTrigger("Dead");
-        }
+        animator.SetTrigger("Dead");
+        rb.velocity = Vector2.zero;
+        rb.isKinematic = true;
 
-        // Rigidbody 비활성화
-        if (rb != null)
-        {
-            rb.velocity = Vector2.zero;
-            rb.isKinematic = true;
-        }
-
-        // 콜라이더 비활성화
+        
         Collider2D col = GetComponent<Collider2D>();
         if (col != null)
         {

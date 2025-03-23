@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7294703398926559935}
   - component: {fileID: 1108954833652209864}
   - component: {fileID: 701228798389460922}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,7 +85,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6822407731521822003}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ GameObject:
   m_Component:
   - component: {fileID: 701040961205050325}
   - component: {fileID: 5008302663401852623}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MonsterType
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -203,7 +203,7 @@ GameObject:
   - component: {fileID: 6723852956190868095}
   - component: {fileID: 8655554061044479865}
   - component: {fileID: 1456404279076184954}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -282,7 +282,7 @@ GameObject:
   - component: {fileID: 4209094925267423147}
   - component: {fileID: 2541575901794710274}
   - component: {fileID: 7753088571820675509}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy_Melee
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -500,7 +500,7 @@ GameObject:
   - component: {fileID: 3354874017677601283}
   - component: {fileID: 7535951604504171598}
   - component: {fileID: 5050646529360099057}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}

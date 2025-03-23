@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1236614081540315873}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 8711279887669404419}
   - component: {fileID: 2420580458028326304}
   - component: {fileID: 5965537987117808208}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy_Boss
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 1472455318301019846}
   - component: {fileID: 6556653086047534352}
   - component: {fileID: 5792871276592450767}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -337,7 +337,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7873403451721210216}
   - component: {fileID: 1662620031296725741}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MonsterType
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -425,7 +425,7 @@ GameObject:
   - component: {fileID: 338350939698981385}
   - component: {fileID: 2128913536599867620}
   - component: {fileID: 1633533286115386400}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -541,7 +541,7 @@ GameObject:
   - component: {fileID: 3649804730117335487}
   - component: {fileID: 763613218499540165}
   - component: {fileID: 3306787462507509631}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
