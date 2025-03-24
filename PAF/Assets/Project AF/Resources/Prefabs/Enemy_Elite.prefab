@@ -279,9 +279,10 @@ GameObject:
   - component: {fileID: 4202441745764622747}
   - component: {fileID: 1515390857756474196}
   - component: {fileID: 7358378525755235689}
-  - component: {fileID: 5643070059273505943}
-  - component: {fileID: 186921503123831474}
   - component: {fileID: 3296250184709837888}
+  - component: {fileID: 4023596346824836427}
+  - component: {fileID: 3184069642159733347}
+  - component: {fileID: 4260757206797184424}
   m_Layer: 6
   m_Name: Enemy_Elite
   m_TagString: Enemy
@@ -431,41 +432,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &5643070059273505943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6155698698882091914}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f40765af8e094c4e8f572246535e06d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  detectionRange: 6
-  attackRange: 4
-  moveSpeed: 2
-  minAttackDistance: 2
-  arrowPrefab: {fileID: 8958537889649517013, guid: ee691d5f0ca4a8e4da67b8b92c2e9bcb,
-    type: 3}
-  firePoint: {fileID: 5639456652087404286}
-  attackCooldown: 1
---- !u!114 &186921503123831474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6155698698882091914}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 928bc435f9253464d8a02af3ef6a6157, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyName: Enemy
-  maxHealth: 100
-  _currentHealth: 0
 --- !u!95 &3296250184709837888
 Animator:
   serializedVersion: 5
@@ -487,6 +453,50 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4023596346824836427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6155698698882091914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c995f62e1c2c2644978fd87d28a3dc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
+--- !u!114 &3184069642159733347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6155698698882091914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28b085d9df80b894e92fa9f6bc5637c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRange: 5
+  attackRange: 4
+  moveSpeed: 2
+--- !u!114 &4260757206797184424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6155698698882091914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87f0a6ebdc7c2bd409b93bdf472c8c4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  attackCooldown: 1
+  attackRange: 2
 --- !u!1 &7208244777235772470
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,7 +509,7 @@ GameObject:
   - component: {fileID: 6172902772900254362}
   - component: {fileID: 4091729719836014260}
   - component: {fileID: 5936380893683376300}
-  - component: {fileID: 1020185160264070616}
+  - component: {fileID: 5006777020052493762}
   m_Layer: 6
   m_Name: HealthBar
   m_TagString: Untagged
@@ -590,7 +600,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &1020185160264070616
+--- !u!114 &5006777020052493762
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -599,9 +609,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 7208244777235772470}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3b456e624378cd41886894c7e5b9168, type: 3}
+  m_Script: {fileID: 11500000, guid: 0115888b8e4d292459358436c779bad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 186921503123831474}
   healthBarFill: {fileID: 1828947627986728674}
   offset: {x: 0, y: 0.5, z: 0}

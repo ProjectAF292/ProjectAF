@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 2592385980987786309}
   - component: {fileID: 5261383917822041045}
   - component: {fileID: 7727940647981453533}
-  - component: {fileID: 6401378990515215994}
+  - component: {fileID: 333244530474138103}
   m_Layer: 6
   m_Name: HealthBar
   m_TagString: Untagged
@@ -219,7 +219,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &6401378990515215994
+--- !u!114 &333244530474138103
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -228,10 +228,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2404491590146381589}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3b456e624378cd41886894c7e5b9168, type: 3}
+  m_Script: {fileID: 11500000, guid: 66ad43060fc5fc247a7754e150b08250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 1673070657713506984}
   healthBarFill: {fileID: 6370018499229999984}
   offset: {x: 0, y: 0.5, z: 0}
 --- !u!1 &2922143380657556683
@@ -246,9 +245,10 @@ GameObject:
   - component: {fileID: 5963714526041340996}
   - component: {fileID: 6024296919945898715}
   - component: {fileID: 2785358196512336329}
-  - component: {fileID: 3754847670958444154}
-  - component: {fileID: 1673070657713506984}
   - component: {fileID: 8531159622567201106}
+  - component: {fileID: 8089222798122736630}
+  - component: {fileID: 1155784091075569886}
+  - component: {fileID: 4338719246395146545}
   m_Layer: 6
   m_Name: Enemy_Magic
   m_TagString: Enemy
@@ -398,41 +398,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &3754847670958444154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2922143380657556683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f40765af8e094c4e8f572246535e06d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  detectionRange: 6
-  attackRange: 4
-  moveSpeed: 2
-  minAttackDistance: 2
-  arrowPrefab: {fileID: 8958537889649517013, guid: ee691d5f0ca4a8e4da67b8b92c2e9bcb,
-    type: 3}
-  firePoint: {fileID: 7096335418358861483}
-  attackCooldown: 1
---- !u!114 &1673070657713506984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2922143380657556683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 928bc435f9253464d8a02af3ef6a6157, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyName: Enemy
-  maxHealth: 100
-  _currentHealth: 0
 --- !u!95 &8531159622567201106
 Animator:
   serializedVersion: 5
@@ -454,6 +419,50 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8089222798122736630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2922143380657556683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f164b71ac6cc7bf498730468b5229f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
+--- !u!114 &1155784091075569886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2922143380657556683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cb75e82657d8a549a83271e54481142, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRange: 5
+  attackRange: 4
+  moveSpeed: 2
+--- !u!114 &4338719246395146545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2922143380657556683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ce158e922139e6478e23c97d02f5c2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  attackCooldown: 1
+  attackRange: 2
 --- !u!1 &3506910555586021409
 GameObject:
   m_ObjectHideFlags: 0

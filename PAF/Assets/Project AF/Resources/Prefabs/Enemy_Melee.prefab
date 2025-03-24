@@ -76,37 +76,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &4181174231217909449
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6822407731521822003}
-  m_Layer: 6
-  m_Name: FirePoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6822407731521822003
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4181174231217909449}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0588, y: -0.0787, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1691665404689603378}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6184903593455051999
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,9 +248,10 @@ GameObject:
   - component: {fileID: 1166975255529293055}
   - component: {fileID: 1749129903019097744}
   - component: {fileID: 4086928858006520497}
-  - component: {fileID: 4209094925267423147}
-  - component: {fileID: 2541575901794710274}
   - component: {fileID: 7753088571820675509}
+  - component: {fileID: 8651521816327349448}
+  - component: {fileID: 3788997196520941395}
+  - component: {fileID: 7707231580303106683}
   m_Layer: 6
   m_Name: Enemy_Melee
   m_TagString: Enemy
@@ -304,7 +274,6 @@ Transform:
   m_Children:
   - {fileID: 701040961205050325}
   - {fileID: 1543494240368468596}
-  - {fileID: 6822407731521822003}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1166975255529293055
@@ -431,41 +400,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &4209094925267423147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8061255944637383645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f40765af8e094c4e8f572246535e06d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  detectionRange: 6
-  attackRange: 4
-  moveSpeed: 2
-  minAttackDistance: 2
-  arrowPrefab: {fileID: 8958537889649517013, guid: ee691d5f0ca4a8e4da67b8b92c2e9bcb,
-    type: 3}
-  firePoint: {fileID: 6822407731521822003}
-  attackCooldown: 1
---- !u!114 &2541575901794710274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8061255944637383645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 928bc435f9253464d8a02af3ef6a6157, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyName: Enemy
-  maxHealth: 100
-  _currentHealth: 0
 --- !u!95 &7753088571820675509
 Animator:
   serializedVersion: 5
@@ -487,6 +421,56 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8651521816327349448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8061255944637383645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 020416b6a70ef834a80bbfd0763c194b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 120
+  currentHealth: 0
+--- !u!114 &3788997196520941395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8061255944637383645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b009685ffb3645840b4ecfd319c423da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  attackCooldown: 1
+  attackRange: 2
+  attackSize: {x: 1.5, y: 2}
+  attackOffset: {x: 0.7, y: 0}
+  attackEffectAnimator: {fileID: 9100000, guid: 3448a9048e8ce5e4088d2bea87209f49,
+    type: 2}
+  effectSize: {x: 0.5, y: 0.5}
+--- !u!114 &7707231580303106683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8061255944637383645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f0fb9e04dd5fa141843801c587f09d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeSettings:
+    detectionRange: 5
+    attackRange: 1.5
+    moveSpeed: 2
 --- !u!1 &8331730648873783092
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,7 +483,7 @@ GameObject:
   - component: {fileID: 527135689600540204}
   - component: {fileID: 3354874017677601283}
   - component: {fileID: 7535951604504171598}
-  - component: {fileID: 5050646529360099057}
+  - component: {fileID: 4390126278061333030}
   m_Layer: 6
   m_Name: HealthBar
   m_TagString: Untagged
@@ -590,7 +574,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &5050646529360099057
+--- !u!114 &4390126278061333030
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -599,9 +583,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 8331730648873783092}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3b456e624378cd41886894c7e5b9168, type: 3}
+  m_Script: {fileID: 11500000, guid: b0d9c969bec2e7c4d8fc745427a8d75b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 2541575901794710274}
   healthBarFill: {fileID: 1456404279076184954}
   offset: {x: 0, y: 0.5, z: 0}

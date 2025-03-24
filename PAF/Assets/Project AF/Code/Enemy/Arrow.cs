@@ -2,7 +2,7 @@ using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
 /// <summary>
-/// 화살의 동작을 제어하는 클래스
+/// 화살의 동작을 처리하는 클래스
 /// </summary>
 public class Arrow : MonoBehaviour
 {
@@ -13,21 +13,23 @@ public class Arrow : MonoBehaviour
     [Tooltip("화살 속도")]
     public float speed = 10f;
     
-    [Tooltip("화살이 자동으로 사라지는 시간")]
+    [Tooltip("화살 수명")]
     public float lifeTime = 3f;
 
     private void Start()
     {
-        // lifeTime 후에 화살 제거
-        Destroy(gameObject, lifeTime);
+        if (lifeTime > 0)
+        {
+            Destroy(gameObject, lifeTime);
+        }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         // 플레이어와 충돌했을 때
-        if (collision.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            PlayerHealth playerHealth = collision.GetComponent<PlayerHealth>();
+            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(damage);
@@ -37,7 +39,7 @@ public class Arrow : MonoBehaviour
             Destroy(gameObject);
         }
         // 벽과 충돌했을 때
-        else if (collision.CompareTag("Wall"))
+        else if (other.CompareTag("Wall"))
         {
             Destroy(gameObject);
         }

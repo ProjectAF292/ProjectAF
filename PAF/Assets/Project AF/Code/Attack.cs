@@ -37,7 +37,7 @@ public class Attack : MonoBehaviour
     {
         if (collision.CompareTag("Enemy")) // 적과 충돌 감지
         {
-            Enemy enemy = collision.GetComponent<Enemy>();
+            BaseEnemy enemy = collision.GetComponent<BaseEnemy>();
             if (enemy != null)
             {
                 enemy.TakeDamage(damage); // 적에게 데미지 적용

@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 3111530896461352228}
   - component: {fileID: 1610061684050874945}
   - component: {fileID: 6926946477440124499}
-  - component: {fileID: 3696383240256962315}
+  - component: {fileID: 6472930768311034211}
   m_Layer: 0
   m_Name: Arrow
-  m_TagString: Untagged
+  m_TagString: EnemyAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -159,7 +159,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.19, y: 0.05}
   m_EdgeRadius: 0
---- !u!114 &3696383240256962315
+--- !u!114 &6472930768311034211
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
