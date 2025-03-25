@@ -452,6 +452,9 @@ MonoBehaviour:
     minimumRange: 1
     teleportRadius: 4
     teleportCooldown: 5
+    teleportEffectAnimator: {fileID: 9100000, guid: e83acd022535baa41bb8ffd412d3f7d8,
+      type: 2}
+    effectSize: {x: 1.5, y: 2}
 --- !u!114 &4338719246395146545
 MonoBehaviour:
   m_ObjectHideFlags: 0

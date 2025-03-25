@@ -33,6 +33,13 @@ public class MagicEnemyAI : BaseEnemyAI
 
         [Tooltip("텔레포트 쿨타임 (초)")]
         public float teleportCooldown = 5f;
+
+        [Header("Teleport Effect")]
+        [Tooltip("텔레포트 이펙트 애니메이션")]
+        public RuntimeAnimatorController teleportEffectAnimator;
+        
+        [Tooltip("이펙트 크기")]
+        public Vector2 effectSize = Vector2.one;
     }
 
     [Header("Magic Enemy Settings")]
@@ -185,6 +192,12 @@ public class MagicEnemyAI : BaseEnemyAI
         // 텔레포트 실행
         transform.position = teleportPosition;
         
+        // 도착 위치에 이펙트 생성
+        if (magicSettings.teleportEffectAnimator != null)
+        {
+            CreateTeleportEffect(teleportPosition);
+        }
+
         // 애니메이션 처리
         if (_animator != null)
         {
@@ -194,6 +207,27 @@ public class MagicEnemyAI : BaseEnemyAI
         }
 
         isTeleporting = false;
+    }
+
+    private void CreateTeleportEffect(Vector2 position)
+    {
+        // 이펙트 오브젝트 생성
+        GameObject effect = new GameObject("TeleportEffect");
+        effect.transform.position = position;
+        
+        // 스프라이트 렌더러 추가
+        SpriteRenderer spriteRenderer = effect.AddComponent<SpriteRenderer>();
+        spriteRenderer.sortingOrder = 1; // 적보다 위에 표시
+        
+        // 애니메이터 추가
+        Animator animator = effect.AddComponent<Animator>();
+        animator.runtimeAnimatorController = magicSettings.teleportEffectAnimator;
+        
+        // 크기 설정
+        effect.transform.localScale = magicSettings.effectSize;
+        
+        // 애니메이션 종료 후 자동 제거 (0.5초 후)
+        Destroy(effect, 0.5f);
     }
 
     private void OnDrawGizmos()
