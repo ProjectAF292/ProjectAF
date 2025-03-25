@@ -59,6 +59,13 @@ public abstract class BaseEnemy : MonoBehaviour
         if (_animator != null)
         {
             _animator.SetTrigger("Die");
+            // 애니메이션 재생 후 오브젝트 파괴
+            Destroy(gameObject, 0.5f);
+        }
+        else
+        {
+            // 애니메이터가 없으면 바로 파괴
+            Destroy(gameObject);
         }
 
         // Rigidbody 비활성화

@@ -1,36 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1372648715967515314
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7096335418358861483}
-  m_Layer: 6
-  m_Name: FirePoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7096335418358861483
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1372648715967515314}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0588, y: -0.0787, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1251164116618667806}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1374867708412354579
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,7 +240,6 @@ Transform:
   m_Children:
   - {fileID: 2092826565381205720}
   - {fileID: 5188594795701083058}
-  - {fileID: 7096335418358861483}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5963714526041340996
@@ -433,6 +401,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+  ironWallThreshold: 0.5
+  damageReduction: 0.5
+  ironWallEffectAnimator: {fileID: 9100000, guid: 44960fa1d7a44f1499d0756a13741596,
+    type: 2}
+  effectSize: {x: 2, y: 2}
 --- !u!114 &6845121584431740251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,9 +418,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f93b7eaf7da1a864e8c579a8165c6033, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRange: 5
-  attackRange: 4
-  moveSpeed: 2
+  tankSettings:
+    detectionRange: 8
+    attackRange: 1.5
+    moveSpeed: 1.5
 --- !u!114 &7440415732391000787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -462,7 +436,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   attackCooldown: 1
-  attackRange: 2
+  attackRange: 1.5
+  attackSize: {x: 1.5, y: 1.5}
+  attackOffset: {x: 0.7, y: 0}
+  attackEffectAnimator: {fileID: 9100000, guid: 3448a9048e8ce5e4088d2bea87209f49,
+    type: 2}
+  effectSize: {x: 1, y: 1}
 --- !u!1 &3506910555586021409
 GameObject:
   m_ObjectHideFlags: 0

@@ -152,12 +152,12 @@ public class MeleeEnemyAI : BaseEnemyAI
 
     private void OnDrawGizmos()
     {
-        // 기본 감지 범위 시각화 (빨간색)
-        Gizmos.color = new Color(1f, 0f, 0f, 0.2f);
+        // 감지 범위 시각화 (빨간색)
+        Gizmos.color = new Color(1f, 0f, 0f, 0.3f);
         Gizmos.DrawWireSphere(transform.position, meleeSettings.detectionRange);
 
-        // 공격 범위 시각화 (노란색)
-        Gizmos.color = new Color(1f, 1f, 0f, 0.2f);
+        // 공격 범위 시각화 (파란색)
+        Gizmos.color = new Color(0f, 0f, 1f, 0.3f);
         Gizmos.DrawWireSphere(transform.position, meleeSettings.attackRange);
     }
 } 

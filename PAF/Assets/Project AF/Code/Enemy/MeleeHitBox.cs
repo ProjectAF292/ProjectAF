@@ -5,8 +5,13 @@ using UnityEngine;
 /// </summary>
 public class MeleeHitBox : MonoBehaviour
 {
-    public float damage = 10f;
+    private float _damage;  // private으로 변경
     private bool hasDamaged = false;  // 현재 활성화 중에 데미지를 줬는지 체크
+
+    public void SetDamage(float damage)
+    {
+        _damage = damage;
+    }
 
     private void OnEnable()
     {
@@ -22,8 +27,8 @@ public class MeleeHitBox : MonoBehaviour
             PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
-                playerHealth.TakeDamage(damage);
-                Debug.Log($"플레이어에게 데미지 적용: {damage}");
+                playerHealth.TakeDamage(_damage);
+                Debug.Log($"플레이어에게 데미지 적용: {_damage}");
                 hasDamaged = true;  // 이번 활성화 중에는 더 이상 데미지를 주지 않음
             }
         }

@@ -2923,6 +2923,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_Melee
       objectReference: {fileID: 0}
+    - target: {fileID: 8061255944637383645, guid: b8fc0e9dd68a91146bd024e4816723d7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4780,6 +4785,79 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687832423}
   m_CullTransparentMesh: 1
+--- !u!1001 &1707566703
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1251164116618667806, guid: 746ceba04e40e0244abf93a7ba78ad36,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1251164116618667806, guid: 746ceba04e40e0244abf93a7ba78ad36,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1251164116618667806, guid: 746ceba04e40e0244abf93a7ba78ad36,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1251164116618667806, guid: 746ceba04e40e0244abf93a7ba78ad36,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1251164116618667806, guid: 746ceba04e40e0244abf93a7ba78ad36,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1251164116618667806, guid: 746ceba04e40e0244abf93a7ba78ad36,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1251164116618667806, guid: 746ceba04e40e0244abf93a7ba78ad36,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1251164116618667806, guid: 746ceba04e40e0244abf93a7ba78ad36,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1251164116618667806, guid: 746ceba04e40e0244abf93a7ba78ad36,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1251164116618667806, guid: 746ceba04e40e0244abf93a7ba78ad36,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2922143380657556683, guid: 746ceba04e40e0244abf93a7ba78ad36,
+        type: 3}
+      propertyPath: m_Name
+      value: Enemy_Tank
+      objectReference: {fileID: 0}
+    - target: {fileID: 6845121584431740251, guid: 746ceba04e40e0244abf93a7ba78ad36,
+        type: 3}
+      propertyPath: tankSettings.attackRange
+      value: 1.5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 746ceba04e40e0244abf93a7ba78ad36, type: 3}
 --- !u!1 &1719326446
 GameObject:
   m_ObjectHideFlags: 0
@@ -6757,6 +6835,7 @@ SceneRoots:
   - {fileID: 1576946195}
   - {fileID: 505275203}
   - {fileID: 1145612083}
+  - {fileID: 1707566703}
   - {fileID: 1668669078}
   - {fileID: 1979846651}
   - {fileID: 2137480943}

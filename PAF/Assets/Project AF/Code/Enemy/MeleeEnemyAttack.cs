@@ -55,7 +55,7 @@ public class MeleeEnemyAttack : BaseEnemyAttack
         
         // 히트박스 스크립트 추가
         MeleeHitBox hitBoxScript = _hitBox.AddComponent<MeleeHitBox>();
-        hitBoxScript.damage = damage;
+        hitBoxScript.SetDamage(damage);  // SetDamage 메서드 사용
         
         // 초기 위치 설정
         _hitBox.transform.localPosition = Vector3.zero;
@@ -66,10 +66,20 @@ public class MeleeEnemyAttack : BaseEnemyAttack
 
     private void OnValidate()
     {
-        // 인스펙터에서 값이 변경될 때 히트박스 크기 업데이트
+        // 인스펙터에서 값이 변경될 때 히트박스 크기와 데미지 업데이트
         if (_hitBoxCollider != null)
         {
             _hitBoxCollider.size = attackSize;
+        }
+        
+        // 데미지 값이 변경되면 히트박스의 데미지도 업데이트
+        if (_hitBox != null)
+        {
+            MeleeHitBox hitBoxScript = _hitBox.GetComponent<MeleeHitBox>();
+            if (hitBoxScript != null)
+            {
+                hitBoxScript.SetDamage(damage);
+            }
         }
     }
 
