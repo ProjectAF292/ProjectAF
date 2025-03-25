@@ -445,9 +445,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cb75e82657d8a549a83271e54481142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRange: 5
-  attackRange: 4
-  moveSpeed: 2
+  magicSettings:
+    detectionRange: 10
+    attackRange: 6
+    moveSpeed: 2
+    minimumRange: 1
+    teleportRadius: 4
+    teleportCooldown: 5
 --- !u!114 &4338719246395146545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -462,7 +466,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   attackCooldown: 1
-  attackRange: 2
+  attackRange: 6
+  magicProjectilePrefab: {fileID: 5429751734608919566, guid: 38b035b09aa6e9d41ad5ae95754463f5,
+    type: 3}
+  firePoint: {fileID: 7096335418358861483}
+  projectileSpeed: 8
+  projectileLifetime: 3
+  magicEffectAnimator: {fileID: 9100000, guid: 8916fb124dd18ce4f80ac1e44cc8206b, type: 2}
+  effectSize: {x: 0.5, y: 0.5}
 --- !u!1 &3506910555586021409
 GameObject:
   m_ObjectHideFlags: 0
