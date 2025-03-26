@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69d2f2dd211138f44828979f0de7ef6f, type: 3}
+  m_Name: FireWorrior
+  m_EditorClassIdentifier: 
+  enemyName: FireWorrior
+  enemyType: 0
+  elementType: 0
+  attackType: 0
+  maxHealth: 100
+  detectionRange: 8
+  attackRange: 1.5
+  moveSpeed: 2
+  attackSpeed: 1
+  attackDamage: 10
+  attackEffectPrefab: {fileID: 6439755100440475791, guid: 747204d2ab53d3b479e3de44ff17b60c,
+    type: 3}
+  attackEffectScale: {x: 0.5, y: 0.5}
+  skillEffectPrefab: {fileID: 0}
+  animatorController: {fileID: 9100000, guid: 4d2b02b7e6330df45897fb3778d7c1c8, type: 2}
+  enemyPrefab: {fileID: 8691023333564184412, guid: f9548cdd1f90adf45b65e174fd8d39a4,
+    type: 3}

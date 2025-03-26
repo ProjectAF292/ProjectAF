@@ -37,10 +37,22 @@ public class Attack : MonoBehaviour
     {
         if (collision.CompareTag("Enemy")) // 적과 충돌 감지
         {
+            // 먼저 TBaseEnemy 체크
+            TBaseEnemy tbaseEnemy = collision.GetComponent<TBaseEnemy>();
+            if (tbaseEnemy != null)
+            {
+                tbaseEnemy.TakeDamage(damage); // 적에게 데미지 적용
+                Debug.Log($"TBaseEnemy에게 {damage} 데미지를 입혔습니다.");
+                gameObject.SetActive(false);
+                return;
+            }
+
+            // TBaseEnemy가 없다면 BaseEnemy 체크
             BaseEnemy enemy = collision.GetComponent<BaseEnemy>();
             if (enemy != null)
             {
                 enemy.TakeDamage(damage); // 적에게 데미지 적용
+                Debug.Log($"BaseEnemy에게 {damage} 데미지를 입혔습니다.");
             }
 
             gameObject.SetActive(false); // 충돌 후 삭제 (필요시 삭제 X)
