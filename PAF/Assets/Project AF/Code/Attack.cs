@@ -4,58 +4,69 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    public float damage;
-    public float speed;  // 공격 속도
-    public float lifetime = 2f;
+    public float damage = 10f;
+    public float lifetime = 0.3f;  // 공격 지속 시간
+    public float attackRadius = 1.5f;  // 검이 휘두르는 반지름 (플레이어와의 거리)
+    private Transform attackCenter;  // 회전 중심 (자동으로 플레이어를 찾음)
 
-    private Vector2 moveDirection;  // 이동 방향
-    private Rigidbody2D rb;
+    private float startAngle;
+    private float elapsedTime = 0f;
 
-    void Awake()
+    void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        Init(damage, moveDirection, speed, lifetime);
+        // 공격 중심을 플레이어의 위치로 설정
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player != null)
+        {
+            attackCenter = player.transform;  // 플레이어를 중심으로 설정
+            startAngle = player.transform.eulerAngles.z - 90f; // 플레이어 방향을 기준으로 휘두름
+            StartCoroutine(SwingAttack());
+        }
+        else
+        {
+            Debug.LogError("플레이어를 찾을 수 없습니다. Attack 스크립트가 정상 동작하지 않습니다.");
+            Destroy(gameObject);
+        }
     }
 
-    public void Init(float damage, Vector2 direction, float speed, float lifetime)
+    IEnumerator SwingAttack()
     {
-        this.damage = damage;
-        this.speed = speed;
-        this.moveDirection = direction;
-        
-        rb = GetComponent<Rigidbody2D>(); // Rigidbody2D 가져오기
+        float targetAngle = startAngle + 180f;  // 180도 회전 목표
+        float duration = lifetime;  // 회전하는 데 걸리는 시간
 
-        if (rb != null)
+        while (elapsedTime < duration)
         {
-            rb.velocity = moveDirection * speed; // 지정된 방향으로 이동
+            float angle = Mathf.Lerp(startAngle, targetAngle, elapsedTime / duration);  // 부드럽게 회전
+            float radian = angle * Mathf.Deg2Rad;
+
+            // 검 위치를 회전 중심 기준으로 이동
+            transform.position = attackCenter.position + new Vector3(Mathf.Cos(radian), Mathf.Sin(radian)) * attackRadius;
+            transform.rotation = Quaternion.Euler(0, 0, angle);  // 검이 항상 앞을 향하도록 회전
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
 
-        Destroy(gameObject, lifetime);
+        Destroy(gameObject);  // 회전이 끝나면 삭제
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy")) // 적과 충돌 감지
+        if (collision.CompareTag("Enemy"))
         {
-            // 먼저 TBaseEnemy 체크
             TBaseEnemy tbaseEnemy = collision.GetComponent<TBaseEnemy>();
             if (tbaseEnemy != null)
             {
-                tbaseEnemy.TakeDamage(damage); // 적에게 데미지 적용
-                Debug.Log($"TBaseEnemy에게 {damage} 데미지를 입혔습니다.");
-                gameObject.SetActive(false);
+                tbaseEnemy.TakeDamage(damage);
                 return;
             }
 
-            // TBaseEnemy가 없다면 BaseEnemy 체크
             BaseEnemy enemy = collision.GetComponent<BaseEnemy>();
             if (enemy != null)
             {
-                enemy.TakeDamage(damage); // 적에게 데미지 적용
-                Debug.Log($"BaseEnemy에게 {damage} 데미지를 입혔습니다.");
+                enemy.TakeDamage(damage);
             }
-
-            gameObject.SetActive(false); // 충돌 후 삭제 (필요시 삭제 X)
         }
     }
+
 }
