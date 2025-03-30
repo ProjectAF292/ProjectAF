@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 5117711050163811587}
   - component: {fileID: 8458902999025293480}
   - component: {fileID: -1510147945152083641}
-  - component: {fileID: 3969911091666533398}
+  - component: {fileID: 1883515578014877986}
+  - component: {fileID: 5227206109408493981}
   m_Layer: 0
   m_Name: Attack 0
   m_TagString: Attack
@@ -160,7 +161,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &3969911091666533398
+--- !u!114 &1883515578014877986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2840471858232622664}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9382994e31f40e499eff1003f19ebb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  lifetime: 0.3
+  attackRadius: 1.5
+--- !u!114 &5227206109408493981
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -169,9 +185,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2840471858232622664}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9382994e31f40e499eff1003f19ebb4, type: 3}
+  m_Script: {fileID: 11500000, guid: 163e5e9b1439d6b4cabfcb242f3fc44f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 20
-  lifetime: 0.2
+  damage: 10
+  lifetime: 0.3
   attackRadius: 1.5
+  burnDamage: 20
+  burnDuration: 3
+  burnInterval: 1
