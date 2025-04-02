@@ -9,13 +9,10 @@ public class Player : MonoBehaviour
     [Header("Move Set")]
     public Vector2 inputVec;
     public float speed;
-    [Header("Dash Set")]
-    public float dashSpeed = 50;
-    public float dashTime = 0.2f;
-
-    public bool isDashing = false;
-    private Vector2 dashDirection;
-
+    [Header("Can't Move")]
+    public LayerMask layer;
+    
+    CapsuleCollider2D coll2d;
     Rigidbody2D rigid;
     SpriteRenderer spriter;
     Animator anim;
@@ -26,33 +23,39 @@ public class Player : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
-       
+        coll2d = GetComponent<CapsuleCollider2D>();
+
     }
 
     private void Update()
     {
-        if (!isDashing)
-        {
-            inputVec.x = Input.GetAxisRaw("Horizontal");
-            inputVec.y = Input.GetAxisRaw("Vertical");
-        }
-
-        if (Input.GetKeyDown(KeyCode.LeftShift) && inputVec != Vector2.zero && !isDashing)
-        {
-            StartCoroutine(Dodge());
-        }
-
+        inputVec.x = Input.GetAxisRaw("Horizontal");
+        inputVec.y = Input.GetAxisRaw("Vertical");
+                        
     }
 
     private void FixedUpdate()
     {
-        float currentSpee = isDashing ? dashSpeed : speed;
-        Vector2 nextVec = inputVec.normalized * speed * Time.fixedDeltaTime; // 플레이어 이동 입렵값을 일정하게 유지
-        rigid.MovePosition(rigid.position + nextVec); //리지드 위치에 내가 입력한 좌표값 더한곳으로 이동
-
         
-    }
+        Vector2 nextVec = inputVec.normalized * speed * Time.fixedDeltaTime; // 플레이어 이동 입렵값을 일정하게 유지
 
+        //RaycastHit2D hit; // 이동을 못하게 하는 로직
+        //Vector2 start = transform.position;
+        //Vector2 end = start + new Vector2(nextVec.x, nextVec.y);
+
+        //coll2d.enabled = false;
+        //hit = Physics2D.Linecast(start, end, layer);
+        //coll2d.enabled = true;
+
+        //if (hit.transform == null)
+        {
+            //rigid.MovePosition(rigid.position + nextVec); //리지드 위치에 내가 입력한 좌표값 더한곳으로 이동
+        }
+        rigid.MovePosition(rigid.position + nextVec); //리지드 위치에 내가 입력한 좌표값 더한곳으로 이동
+        rigid.velocity = new Vector2(inputVec.x, inputVec.y);
+    }
+    
+        
                   
     private void LateUpdate()
     {
@@ -64,13 +67,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    IEnumerator Dodge()
-    {
-        isDashing = true;
-        dashDirection = inputVec.normalized;
-        yield return new WaitForSeconds(dashTime);
-        isDashing = false; 
-    }
+    
 
 
 

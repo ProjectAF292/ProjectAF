@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ee4ec38a961223408a707d28ef39d05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabs: []
   attackPos: {fileID: 3760456335360509737}
+  skillPool: {fileID: 0}
 --- !u!1 &577174097251020533
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,6 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ski: {fileID: 5101828342343851708}
+  uiManager: {fileID: 0}
   player: {fileID: 1200603032840713024}
   radius: 2
 --- !u!1 &1866194736139268516
@@ -534,7 +535,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!70 &8461127626479796752
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -605,6 +606,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputVec: {x: 0, y: 0}
   speed: 5
+  layer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!114 &5243768956937652851
 MonoBehaviour:
   m_ObjectHideFlags: 0
