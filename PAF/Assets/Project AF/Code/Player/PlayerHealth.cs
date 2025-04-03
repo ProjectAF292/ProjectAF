@@ -16,6 +16,7 @@ public class PlayerHealth : MonoBehaviour
 
     // 플레이어의 사망 상태
     private bool isDead = false;
+    private bool isInvincible = false; // 무적 상태 추가
 
     // 컴포넌트 캐싱
     private Animator animator;
@@ -40,7 +41,7 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(float damage)
     {
        
-        if (isDead) return;
+        if (isDead || isInvincible) return; // 무적 상태면 피해를 받지 않음
 
         currentHealth -= damage;
         //Debug.Log($"플레이어가 {damage} 데미지를 받았습니다. 현재 체력: {currentHealth}");
@@ -72,7 +73,7 @@ public class PlayerHealth : MonoBehaviour
         Debug.Log("플레이어가 사망했습니다!");
 
         animator.SetTrigger("Dead");
-        rb.velocity = Vector2.zero;
+        rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         rb.isKinematic = true;
 
         
@@ -83,27 +84,14 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 현재 체력을 반환
-    /// </summary>
-    public float GetCurrentHealth()
+    // 무적 상태 설정
+    public void SetInvincible(bool state)
     {
-        return currentHealth;
+        isInvincible = state;
     }
 
-    /// <summary>
-    /// 최대 체력을 반환
-    /// </summary>
-    public float GetMaxHealth()
-    {
-        return maxHealth;
-    }
+    public float GetCurrentHealth() => currentHealth;
+    public float GetMaxHealth() => maxHealth;
+    public bool IsDead() => isDead;
 
-    /// <summary>
-    /// 사망 상태를 반환
-    /// </summary>
-    public bool IsDead()
-    {
-        return isDead;
-    }
 } 

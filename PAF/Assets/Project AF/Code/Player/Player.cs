@@ -9,13 +9,19 @@ public class Player : MonoBehaviour
     [Header("Move Set")]
     public Vector2 inputVec;
     public float speed;
-    [Header("Can't Move")]
-    public LayerMask layer;
+    [Header("Dash Set")]
+    public float dashSpeedMultiplier = 2f; // 대시 속도 배율
+    public float dashDuration = 0.3f; // 대시 지속 시간
+    public bool isDashing = false; // 대시 중 여부 확인
+    public bool SetInvincible = false; // 대시 중 여부 확인
     
     CapsuleCollider2D coll2d;
     Rigidbody2D rigid;
     SpriteRenderer spriter;
     Animator anim;
+    private float defaultSpeed; // 원래 이동 속도 저장
+
+    
 
        
         void Awake()
@@ -24,6 +30,7 @@ public class Player : MonoBehaviour
         spriter = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         coll2d = GetComponent<CapsuleCollider2D>();
+        defaultSpeed = speed; // 기본 이동 속도 저장
 
     }
 
@@ -31,6 +38,11 @@ public class Player : MonoBehaviour
     {
         inputVec.x = Input.GetAxisRaw("Horizontal");
         inputVec.y = Input.GetAxisRaw("Vertical");
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing)
+        {
+            StartCoroutine(Dash());
+        }
                         
     }
 
@@ -38,21 +50,8 @@ public class Player : MonoBehaviour
     {
         
         Vector2 nextVec = inputVec.normalized * speed * Time.fixedDeltaTime; // 플레이어 이동 입렵값을 일정하게 유지
-
-        //RaycastHit2D hit; // 이동을 못하게 하는 로직
-        //Vector2 start = transform.position;
-        //Vector2 end = start + new Vector2(nextVec.x, nextVec.y);
-
-        //coll2d.enabled = false;
-        //hit = Physics2D.Linecast(start, end, layer);
-        //coll2d.enabled = true;
-
-        //if (hit.transform == null)
-        {
-            //rigid.MovePosition(rigid.position + nextVec); //리지드 위치에 내가 입력한 좌표값 더한곳으로 이동
-        }
         rigid.MovePosition(rigid.position + nextVec); //리지드 위치에 내가 입력한 좌표값 더한곳으로 이동
-        rigid.velocity = new Vector2(inputVec.x, inputVec.y);
+        rigid.velocity = new Vector2(inputVec.x, inputVec.y); // 이건 왜 작동하는거지
     }
     
         
@@ -67,7 +66,28 @@ public class Player : MonoBehaviour
         }
     }
 
-    
+    // 대시 기능을 위한 코루틴
+    IEnumerator Dash()
+    {
+        isDashing = true;
+        speed *= dashSpeedMultiplier; // 이동 속도 증가
+
+        PlayerHealth health = GetComponent<PlayerHealth>();
+        if (health != null)
+        {
+            health.SetInvincible(true); // 무적 상태 활성화
+        }
+
+        yield return new WaitForSeconds(dashDuration); // 일정 시간 동안 대시 유지
+
+        speed = defaultSpeed; // 원래 속도로 복귀
+        isDashing = false;
+
+        if (health != null)
+        {
+            health.SetInvincible(false); // 무적 해제
+        }
+    }
 
 
 
