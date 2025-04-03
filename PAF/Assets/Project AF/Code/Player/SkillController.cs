@@ -38,10 +38,10 @@ public class SkillController : MonoBehaviour
         Vector2 dirVec = (mousePos - (Vector2)transform.position).normalized;
         transform.up = dirVec;
 
-        if (Input.GetMouseButtonDown(0)) ski.NormalAttack();
-        if (Input.GetMouseButtonDown(1)) ski.UseSkill(0);
-        if (Input.GetKeyDown(KeyCode.Q)) ski.UseSkill(1);
-        if (Input.GetKeyDown(KeyCode.E)) ski.UseSkill(2);
+        if (Input.GetMouseButtonDown(0)) ski.NormalAttack(0);
+        if (Input.GetMouseButtonDown(1)) ski.NormalAttack(1);
+        if (Input.GetKeyDown(KeyCode.Q)) ski.UseSkill(0);
+        if (Input.GetKeyDown(KeyCode.E)) ski.UseSkill(1);
         if (Input.GetKeyDown(KeyCode.Tab)) uiManager.ChangeSlot();
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,21 +22,29 @@ public class SkillManager : MonoBehaviour
     {
         GameObject select = null;
 
-        var skillSlot = dataManager.isSlotASelected ? userData.skillSlotA : userData.skillSlotB;
+        var skillSlot = dataManager.isSlotASelected ? userData.atSlotA : userData.atSlotB;
+
+        int skillIndex = dataManager.SearchForId(DataManager.Table.AtTable, skillSlot[index]);
+        string prefabName = dataManager.atSkillTbl[skillIndex]["Prefab"].ToString();
+        GameObject prefab = Resources.Load<GameObject>(prefabName);
 
         if (select == null)
         {
-            select = Instantiate(Resources.Load<GameObject>(dataManager.skillTbl[skillSlot[index]]["Prefab"].ToString()), attackPos.transform.position, Quaternion.identity, skillPool.gameObject.transform);
+            select = Instantiate(prefab, attackPos.transform.position, Quaternion.identity, skillPool.gameObject.transform);
         }
     }
 
-    public void NormalAttack()
+    public void NormalAttack(int index)
     {
         GameObject select = null;
 
+        int skillIndex = dataManager.SearchForId(DataManager.Table.WeaponTable, userData.weaponSkill[index]);
+        string prefabName = dataManager.weaponSkillTbl[skillIndex]["Prefab"].ToString();
+        GameObject prefab = Resources.Load<GameObject>(prefabName);
+
         if (select == null)
         {
-            select = Instantiate(Resources.Load<GameObject>(dataManager.skillTbl[0]["Prefab"].ToString()), attackPos.transform.position, Quaternion.identity, skillPool.gameObject.transform);
+            select = Instantiate(prefab, attackPos.transform.position, Quaternion.identity, skillPool.gameObject.transform);
         }
     }
 }

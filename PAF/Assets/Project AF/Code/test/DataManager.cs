@@ -2,12 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public class UserData
 {
-    public int[] skillSlotA = new int[3];
-    public int[] skillSlotB = new int[3];
-    public List<int> skillList = new List<int>();
+    public int[] atSlotA = new int[2];
+    public int[] atSlotB = new int[2];
+    public int[] weaponSkill = new int[2];
+    public List<int> atList = new List<int>();
+    public List<int> weaponList = new List<int>();
 }
 
 public class DataManager : Singleton<DataManager>
@@ -16,36 +19,57 @@ public class DataManager : Singleton<DataManager>
     public int curSlotNum;
     public bool isSlotASelected;
 
-    public List<Dictionary<string , object>> skillTbl;
+    public List<Dictionary<string , object>> atSkillTbl;
+    public List<Dictionary<string , object>> weaponSkillTbl;
+
+    public enum Table
+    {
+        AtTable,
+        WeaponTable
+    }
 
     void Awake()
     {
-        skillTbl = CSVReader.Read("DT_Skill");
+        atSkillTbl = CSVReader.Read("DT_Skill_Artifact");
+        weaponSkillTbl = CSVReader.Read("DT_Skill_Weapon");
         curSlotNum = 0;
         isSlotASelected = true;
-
-        for (int i = 0; i < 3; i++)
+        
+        for (int i = 0; i < 2; i++)
         {
-            userData.skillSlotA[i] = i + 1;
-            userData.skillSlotB[i] = i + 1;
+            userData.atList.Add((int)atSkillTbl[i]["Id"]);
+            userData.atSlotA[i] = (int)atSkillTbl[i]["Id"];
+            userData.atSlotB[i] = (int)atSkillTbl[i]["Id"];
+            userData.weaponList.Add((int)weaponSkillTbl[i]["Id"]);
+            userData.weaponSkill[i] = (int)weaponSkillTbl[i]["Id"];
         }
 
-        for (int i = 0; i < 3; i++)
-        {
-            userData.skillList.Add(i + 1);
-        }
+    }
 
+    public int SearchForId(Table table, int id)
+    {
         int row = 0;
 
-        //값으로 행 조회 테스트
-        for (int i = 0; i < skillTbl.Count; i++)
+        List<Dictionary<string, object>> tbl = null;
+
+        switch (table)
         {
-            if (skillTbl[i]["Desc"].ToString() == "Attack 1" )
+            case Table.AtTable:
+                tbl = atSkillTbl;
+                break;
+            case Table.WeaponTable:
+                tbl = weaponSkillTbl;
+                break;
+        }
+
+        for (int i = 0; i < tbl.Count; i++)
+        {
+            if (tbl[i]["Id"].ToString() == id.ToString())
             {
                 row = i;
             }
         }
 
-        Debug.Log(skillTbl[row]["Id"]);
+        return row;
     }
 }

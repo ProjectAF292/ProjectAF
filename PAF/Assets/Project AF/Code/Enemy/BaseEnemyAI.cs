@@ -66,11 +66,6 @@ public abstract class BaseEnemyAI : MonoBehaviour
         if (playerObject != null)
         {
             _player = playerObject.transform;
-            Debug.Log("플레이어를 찾았습니다!");
-        }
-        else
-        {
-            Debug.LogWarning("플레이어를 찾을 수 없습니다!");
         }
     }
 
