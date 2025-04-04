@@ -141,4 +141,9 @@ public class UIManager : MonoBehaviour
             userData.atList.Add((int)dataManager.atSkillTbl[i - 1]["Id"]);
         }
     }
+
+    public void PauseUI()
+    {
+        Time.timeScale = 0;
+    }
 }

@@ -7,6 +7,7 @@ public class SkillController : MonoBehaviour
 {
     public SkillManager ski;
     public UIManager uiManager;
+    public GameManager gameManager;
     private Camera _camera;
 
     public Transform player;
@@ -38,10 +39,15 @@ public class SkillController : MonoBehaviour
         Vector2 dirVec = (mousePos - (Vector2)transform.position).normalized;
         transform.up = dirVec;
 
-        if (Input.GetMouseButtonDown(0)) ski.NormalAttack(0);
-        if (Input.GetMouseButtonDown(1)) ski.NormalAttack(1);
-        if (Input.GetKeyDown(KeyCode.Q)) ski.UseSkill(0);
-        if (Input.GetKeyDown(KeyCode.E)) ski.UseSkill(1);
-        if (Input.GetKeyDown(KeyCode.Tab)) uiManager.ChangeSlot();
+        if (gameManager.isPaused == false)
+        {
+            if (Input.GetMouseButtonDown(0)) ski.NormalAttack(0);
+            if (Input.GetMouseButtonDown(1)) ski.NormalAttack(1);
+            if (Input.GetKeyDown(KeyCode.Q)) ski.UseSkill(0);
+            if (Input.GetKeyDown(KeyCode.E)) ski.UseSkill(1);
+            if (Input.GetKeyDown(KeyCode.Tab)) uiManager.ChangeSlot();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape)) gameManager.Pause();
     }
 }
