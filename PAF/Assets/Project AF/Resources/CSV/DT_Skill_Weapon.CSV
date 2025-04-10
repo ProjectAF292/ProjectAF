@@ -1,3 +1,13 @@
 Id,Desc,Prefab
-1201,NormalAtk,Prefabs/Skills/NormalAtk
-1202,SpecialAtk,Prefabs/Skills/SpecialAtk
+1201,SwordA,Prefabs/Skills/WeaponSkills/Sword_NormalAttackA
+1202,SwordB,Prefabs/Skills/WeaponSkills/Sword_NormalAttackB
+1203,SwordC,Prefabs/Skills/WeaponSkills/Sword_NormalAttackC
+1204,SwordSA,Prefabs/Skills/WeaponSkills/Sword_SpecialAttackA
+1205,SwordSB,Prefabs/Skills/WeaponSkills/Sword_SpecialAttackB
+1206,SwordSC,Prefabs/Skills/WeaponSkills/Sword_SpecialAttackC
+1207,RangeA,Prefabs/Skills/WeaponSkills/Range_NormalAttackA
+1208,RangeB,Prefabs/Skills/WeaponSkills/Range_NormalAttackB
+1209,RangeC,Prefabs/Skills/WeaponSkills/Range_NormalAttackC
+1210,RangeSA,Prefabs/Skills/WeaponSkills/Range_SpecialAttackA
+1211,RangeSB,Prefabs/Skills/WeaponSkills/Range_SpecialAttackB
+1212,RangeSC,Prefabs/Skills/WeaponSkills/Range_SpecialAttackC

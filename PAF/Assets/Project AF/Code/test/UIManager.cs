@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor.Rendering.Universal;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,10 +12,15 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public GameObject skillsui;
+    public GameObject WeaponUi;
     public GameObject[] skills = new GameObject[6]; //여긴 나중에 무조건 바꿔야 함, List로 만들어서 활성화 된 스킬 ui 그대로 받아오게 해야 함
     public List<GameObject> skillList = new List<GameObject>(); //스킬 ui를 직접 연결이 아닌 자동 연결하게 하려면 이거 사용
     public GameObject[] skillSlot = new GameObject[3]; //여긴 나중에 개수 6개로 바꿔야 함 아니면 슬롯A, B로 나누던가
     public TextMeshProUGUI[] slotName = new TextMeshProUGUI[3]; //여기도 슬롯이랑 동일하게 가야 함
+    public List<GameObject> baselist = new List<GameObject>();
+    public List<GameObject> enhanceList = new List<GameObject>();
+    public List<GameObject> morphList = new List<GameObject>();
+
 
     public TextMeshProUGUI curSlotName; //일단 테스트용 ui, 지금 선택된 슬롯이 뭔지 알려주는 ui
 
@@ -145,5 +151,69 @@ public class UIManager : MonoBehaviour
     public void PauseUI()
     {
         Time.timeScale = 0;
+    }
+
+    public void ChangeBasicWeapon()
+    {
+        // Change base parts
+        // Change base weapon appearance and normal attack
+        
+        GameObject selectSlot = EventSystem.current.currentSelectedGameObject;
+        userData.weaponSkill[0] = selectSlot.GetComponent<WeaponData>().weaponId;
+        ChangeWeaponUI(selectSlot);
+    }
+
+    public void ChangeEnhanceWeapon()
+    {
+        GameObject selectSlot = EventSystem.current.currentSelectedGameObject;
+        userData.weaponSkill[0] = selectSlot.GetComponent<WeaponData>().weaponId;
+    }
+
+    public void ChangeMorphWeapon()
+    {
+        GameObject selectSlot = EventSystem.current.currentSelectedGameObject;
+        userData.weaponSkill[1] = selectSlot.GetComponent<WeaponData>().weaponId;
+    }
+
+    public void ChangeWeaponUI(GameObject selectSlot)
+    {
+        switch (selectSlot.GetComponent<WeaponData>()._weaponType)
+        {
+            case WeaponData.weaponType.Sword:
+                for (int i = 0; i < enhanceList.Count; i++)
+                {
+                    enhanceList[i].GetComponent<WeaponData>().weaponId = baselist[0].GetComponent<WeaponData>().weaponId + i + 1;
+                    int row = dataManager.SearchForId(DataManager.Table.WeaponTable, enhanceList[i].GetComponent<WeaponData>().weaponId);
+                    enhanceList[i].transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = dataManager.weaponSkillTbl[row]["Desc"].ToString();
+                }
+
+                for (int i = 0; i < morphList.Count; i++)
+                {
+                    morphList[i].GetComponent<WeaponData>().weaponId = baselist[0].GetComponent<WeaponData>().weaponId + i + 3;
+                    int row = dataManager.SearchForId(DataManager.Table.WeaponTable, morphList[i].GetComponent<WeaponData>().weaponId);
+                    morphList[i].transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = dataManager.weaponSkillTbl[row]["Desc"].ToString();
+                }
+                break;
+            case WeaponData.weaponType.Range:
+                for (int i = 0; i < enhanceList.Count; i++)
+                {
+                    enhanceList[i].GetComponent<WeaponData>().weaponId = baselist[0].GetComponent<WeaponData>().weaponId + i + 7;
+                    int row = dataManager.SearchForId(DataManager.Table.WeaponTable, enhanceList[i].GetComponent<WeaponData>().weaponId);
+                    enhanceList[i].transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = dataManager.weaponSkillTbl[row]["Desc"].ToString();
+                }
+
+                for (int i = 0; i < morphList.Count; i++)
+                {
+                    morphList[i].GetComponent<WeaponData>().weaponId = baselist[0].GetComponent<WeaponData>().weaponId + i + 9;
+                    int row = dataManager.SearchForId(DataManager.Table.WeaponTable, morphList[i].GetComponent<WeaponData>().weaponId);
+                    morphList[i].transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = dataManager.weaponSkillTbl[row]["Desc"].ToString();
+                }
+                break;
+        }
+    }
+
+    public void WeaponBtnClicked()
+    {
+        WeaponUi.SetActive(!WeaponUi.activeSelf);
     }
 }
