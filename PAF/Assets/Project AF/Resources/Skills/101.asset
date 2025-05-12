@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 507067022e41e6047ae760e4ca1b2cd5, type: 3}
+  m_Name: 101
+  m_EditorClassIdentifier: 
+  id: 101
+  _skillName: 
+  _skillDesc: 
+  _skillEffectType: 0
+  _isUsingMp: 1
+  _mpCost: 0
+  _coolTime: 0
+  _dmgType: 0
+  _coef: 0
+  _skillCastType: 0
+  _targetType: 0
+  _isStacked: 1
+  _stackCount: 0
+  _iconSpirte: {fileID: 0}
+  _skillAnim: {fileID: 0}
+  _effectAnim: {fileID: 0}
