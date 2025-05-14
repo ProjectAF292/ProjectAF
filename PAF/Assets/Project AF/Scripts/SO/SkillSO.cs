@@ -47,6 +47,14 @@ public class SkillSO : ScriptableObject
     float _coolTime;
     public float CoolTime => _coolTime;
 
+    [SerializeField, PropertyTooltip("Is Stack")]
+    bool _isStacked;
+    public bool IsStacked => _isStacked;
+
+    [ShowIf("_isStacked"), SerializeField, PropertyTooltip("Stack Count")]
+    int _stackCount;
+    public int StackCount => _stackCount;
+
     [Space(15), EnumPaging, SerializeField, PropertyTooltip("Skill damage type used in damage calculation")]
     DmgType _dmgType;
     public DmgType DamageType => _dmgType;
@@ -86,14 +94,24 @@ public class SkillSO : ScriptableObject
         MultyAlly
     }
 
-    [Space(15), SerializeField, PropertyTooltip("Is Stack")]
-    bool _isStacked;
-    public bool IsStacked => _isStacked;
+    [Space(15), SerializeField, PropertyTooltip("Can move while using skill")]
+    bool _isMove;
+    public bool IsMove => _isMove;
 
-    [ShowIf("_isStacked"), SerializeField, PropertyTooltip("Stack Count")]
-    int _stackCount;
-    public int StackCount => _stackCount;
+    [SerializeField, PropertyTooltip("Cancel motion while using skill")]
+    bool _isCancel;
+    public bool IsCancel => _isCancel;
 
+    [Space(15), EnumPaging, SerializeField, PropertyTooltip("Use buff or debuff")]
+    AdditionalEffects additionalEffects;
+    public AdditionalEffects AddEffect => additionalEffects;
+
+    public enum AdditionalEffects
+    {
+        None,
+        Buff,
+        Debuff
+    }
 
 
 

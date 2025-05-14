@@ -19,12 +19,15 @@ MonoBehaviour:
   _isUsingMp: 1
   _mpCost: 0
   _coolTime: 0
+  _isStacked: 1
+  _stackCount: 0
   _dmgType: 0
   _coef: 0
   _skillCastType: 0
   _targetType: 0
-  _isStacked: 1
-  _stackCount: 0
+  _isMove: 0
+  _isCancel: 0
+  additionalEffects: 0
   _iconSpirte: {fileID: 0}
   _skillAnim: {fileID: 0}
   _effectAnim: {fileID: 0}
