@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 [CreateAssetMenu(fileName = "SkillSO", menuName = "Scriptable Object/SkillSO")]
 public class SkillSO : ScriptableObject
@@ -103,17 +104,16 @@ public class SkillSO : ScriptableObject
     public bool IsCancel => _isCancel;
 
     [Space(15), EnumPaging, SerializeField, PropertyTooltip("Use buff or debuff")]
-    AdditionalEffects additionalEffects;
-    public AdditionalEffects AddEffect => additionalEffects;
+    AdditionalEffects _additionalEffects;
+    public AdditionalEffects AddEffect => _additionalEffects;
 
+    [System.Flags]
     public enum AdditionalEffects
     {
-        None,
-        Buff,
-        Debuff
+        Buff = 1 << 0,
+        Debuff = 1 << 1,
+        All = Buff | Debuff
     }
-
-
 
     [TitleGroup("Assets")]
     [AssetsOnly, PreviewField, SerializeField, PropertyTooltip("Skill icon in Ui")]

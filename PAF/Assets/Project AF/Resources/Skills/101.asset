@@ -27,7 +27,7 @@ MonoBehaviour:
   _targetType: 0
   _isMove: 0
   _isCancel: 0
-  additionalEffects: 0
+  _additionalEffects: 0
   _iconSpirte: {fileID: 0}
   _skillAnim: {fileID: 0}
   _effectAnim: {fileID: 0}
